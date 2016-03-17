@@ -11,18 +11,20 @@
 
 namespace Xabbuh\XApi\Serializer;
 
-use JMS\Serializer\EventDispatcher\EventDispatcher;
-use JMS\Serializer\Handler\HandlerRegistryInterface;
-use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
-use Xabbuh\XApi\Serializer\Event\ActorEventSubscriber;
-use Xabbuh\XApi\Serializer\Event\DocumentDataWrapper;
-use Xabbuh\XApi\Serializer\Event\ObjectEventSubscriber;
-use Xabbuh\XApi\Serializer\Event\SetSerializedTypeEventSubscriber;
-use Xabbuh\XApi\Serializer\Handler\DocumentDataUnwrapper;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Serializer as SymfonySerializer;
+use Xabbuh\XApi\Serializer\Normalizer\ActorNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\DocumentDataNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\ObjectNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\ResultNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\StatementNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\StatementResultNormalizer;
 
 /**
- * Entry point to setup the {@link \JMS\Serializer\Serializer JMS Serializer}
+ * Entry point to setup the {@link \Symfony\Component\Serializer\Serializer Symfony Serializer component}
  * for the Experience API.
  *
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
@@ -30,86 +32,26 @@ use Xabbuh\XApi\Serializer\Handler\DocumentDataUnwrapper;
 class Serializer
 {
     /**
-     * Returns the directory containing the Serializer metadata.
-     *
-     * @return string The metadata directory
-     */
-    public static function getMetadataDirectory()
-    {
-        return __DIR__.'/../metadata';
-    }
-
-    /**
-     * Registers serialization metadata for the xAPI models on a SerializerBuilder.
-     *
-     * @param SerializerBuilder $builder The SerializerBuilder
-     */
-    public static function registerXApiMetadata(SerializerBuilder $builder)
-    {
-        $builder->addMetadataDir(static::getMetadataDirectory(), 'Xabbuh\XApi\Model');
-    }
-
-    /**
-     * Registers event subscribers for the xAPI models on a SerializerBuilder.
-     *
-     * @param SerializerBuilder $builder The SerializerBuilder
-     */
-    public static function registerXApiEventSubscriber(SerializerBuilder $builder)
-    {
-        $builder->configureListeners(function (EventDispatcher $dispatcher) {
-            $dispatcher->addSubscriber(new ActorEventSubscriber());
-            $dispatcher->addSubscriber(new DocumentDataWrapper());
-            $dispatcher->addSubscriber(new ObjectEventSubscriber());
-            $dispatcher->addSubscriber(new SetSerializedTypeEventSubscriber());
-        });
-    }
-
-    /**
-     * Registers handlers for the xAPI models on a SerializerBuilder.
-     *
-     * @param SerializerBuilder $builder The SerializerBuilder
-     */
-    public static function registerXApiHandler(SerializerBuilder $builder)
-    {
-        $builder->configureHandlers(function (HandlerRegistryInterface $handlerRegistry) {
-            $handlerRegistry->registerSubscribingHandler(new DocumentDataUnwrapper());
-        });
-    }
-
-    /**
-     * Registers serialization metadata and event subscribers for the xAPI
-     * models on a SerializerBuilder.
-     *
-     * @param SerializerBuilder $builder The SerializerBuilder
-     */
-    public static function registerXApi(SerializerBuilder $builder)
-    {
-        static::registerXApiMetadata($builder);
-        static::registerXApiEventSubscriber($builder);
-        static::registerXApiHandler($builder);
-    }
-
-    /**
-     * Creates a SerializerBuilder with serialization metadata and serialization
-     * event subscribers registered for the xAPI models.
-     *
-     * @return SerializerBuilder The SerializerBuilder
-     */
-    public static function createSerializerBuilder()
-    {
-        $builder = SerializerBuilder::create();
-        static::registerXApi($builder);
-
-        return $builder;
-    }
-
-    /**
      * Creates a new Serializer.
      *
      * @return SerializerInterface The Serializer
      */
     public static function createSerializer()
     {
-        return static::createSerializerBuilder()->build();
+        $normalizers = array(
+            new ActorNormalizer(),
+            new DocumentDataNormalizer(),
+            new ObjectNormalizer(),
+            new ResultNormalizer(),
+            new StatementNormalizer(),
+            new StatementResultNormalizer(),
+            new ArrayDenormalizer(),
+            new PropertyNormalizer(),
+        );
+        $encoders = array(
+            new JsonEncoder(),
+        );
+
+        return new SymfonySerializer($normalizers, $encoders);
     }
 }

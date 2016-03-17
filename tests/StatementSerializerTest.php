@@ -13,13 +13,14 @@ namespace Xabbuh\XApi\Serializer\Tests;
 
 use Xabbuh\XApi\DataFixtures\StatementFixtures;
 use Xabbuh\XApi\Model\Statement;
+use Xabbuh\XApi\Serializer\Serializer;
 use Xabbuh\XApi\Serializer\StatementSerializer;
 use Xabbuh\XApi\Serializer\Tests\Fixtures\StatementJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class StatementSerializerTest extends AbstractSerializerTest
+class StatementSerializerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var StatementSerializer
@@ -28,8 +29,7 @@ class StatementSerializerTest extends AbstractSerializerTest
 
     protected function setUp()
     {
-        parent::setUp();
-        $this->statementSerializer = new StatementSerializer($this->serializer);
+        $this->statementSerializer = new StatementSerializer(Serializer::createSerializer());
     }
 
     /**
@@ -55,7 +55,7 @@ class StatementSerializerTest extends AbstractSerializerTest
     {
         $serializedStatement = $this->statementSerializer->serializeStatement($statement);
 
-        $this->assertJsonEquals($expectedStatement, $serializedStatement);
+        $this->assertJsonStringEqualsJsonString($expectedStatement, $serializedStatement);
     }
 
     public function statementProvider()

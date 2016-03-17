@@ -11,7 +11,7 @@
 
 namespace Xabbuh\XApi\Serializer;
 
-use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Xabbuh\XApi\Model\DocumentData;
 
 /**

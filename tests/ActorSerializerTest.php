@@ -13,12 +13,13 @@ namespace Xabbuh\XApi\Serializer\Tests;
 
 use Xabbuh\XApi\DataFixtures\ActorFixtures;
 use Xabbuh\XApi\Serializer\ActorSerializer;
+use Xabbuh\XApi\Serializer\Serializer;
 use Xabbuh\XApi\Serializer\Tests\Fixtures\ActorJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class ActorSerializerTest extends AbstractSerializerTest
+class ActorSerializerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var ActorSerializer
@@ -27,8 +28,7 @@ class ActorSerializerTest extends AbstractSerializerTest
 
     protected function setUp()
     {
-        parent::setUp();
-        $this->actorSerializer = new ActorSerializer($this->serializer);
+        $this->actorSerializer = new ActorSerializer(Serializer::createSerializer());
     }
 
     public function testDeserializeAgent()
@@ -70,7 +70,7 @@ class ActorSerializerTest extends AbstractSerializerTest
     {
         $agent = ActorFixtures::getAgent();
 
-        $this->assertJsonEquals(
+        $this->assertJsonStringEqualsJsonString(
             ActorJsonFixtures::getAgent(),
             $this->actorSerializer->serializeActor($agent)
         );
@@ -80,7 +80,7 @@ class ActorSerializerTest extends AbstractSerializerTest
     {
         $group = ActorFixtures::getGroup();
 
-        $this->assertJsonEquals(
+        $this->assertJsonStringEqualsJsonString(
             ActorJsonFixtures::getGroup(),
             $this->actorSerializer->serializeActor($group)
         );

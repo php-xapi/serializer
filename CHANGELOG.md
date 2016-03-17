@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.2.0
+-----
+
+* replaced the JMS Serializer with the Symfony Serializer component
+
 0.1.1
 -----
 

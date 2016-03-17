@@ -23,8 +23,6 @@ matrix:
       env: deps="low"
     - php: 7.0
       env: xdebug="yes"
-  allow_failures:
-    - php: hhvm
 
 before_install:
   - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" && "$xdebug" != "yes" ]]; then phpenv config-rm xdebug.ini; fi

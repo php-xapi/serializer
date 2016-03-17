@@ -1,0 +1,76 @@
+<?php
+
+/*
+ * This file is part of the xAPI package.
+ *
+ * (c) Christian Flothmann <christian.flothmann@xabbuh.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Xabbuh\XApi\Serializer\Normalizer;
+
+use Xabbuh\XApi\Model\Result;
+
+/**
+ * Normalizes and denormalizes xAPI statement results.
+ *
+ * @author Christian Flothmann <christian.flothmann@xabbuh.de>
+ */
+final class ResultNormalizer extends Normalizer
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function normalize($object, $format = null, array $context = array())
+    {
+        if (!$object instanceof Result) {
+            return null;
+        }
+
+        $data = array(
+            'score' => $this->normalizeAttribute($object->getScore(), 'Xabbuh\XApi\Model\Score', $context),
+            'success' => $object->getSuccess(),
+            'completion' => $object->getCompletion(),
+        );
+
+        if (null !== $response = $object->getResponse()) {
+            $data['response'] = $response;
+        }
+
+        if (null !== $duration = $object->getDuration()) {
+            $data['duration'] = $duration;
+        }
+
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsNormalization($data, $format = null)
+    {
+        return $data instanceof Result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function denormalize($data, $class, $format = null, array $context = array())
+    {
+        $score = $this->denormalizeData($data['score'], 'Xabbuh\XApi\Model\Score', $format, $context);
+        $response = isset($data['response']) ? $data['response'] : null;
+        $duration = isset($data['duration']) ? $data['duration'] : null;
+
+        return new Result($score, $data['success'], $data['completion'], $response, $duration);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsDenormalization($data, $type, $format = null)
+    {
+        return 'Xabbuh\XApi\Model\Result' === $type;
+    }
+}

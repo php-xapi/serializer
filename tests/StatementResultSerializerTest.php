@@ -12,13 +12,14 @@
 namespace Xabbuh\XApi\Serializer\Tests;
 
 use Xabbuh\XApi\DataFixtures\StatementResultFixtures;
+use Xabbuh\XApi\Serializer\Serializer;
 use Xabbuh\XApi\Serializer\StatementResultSerializer;
 use Xabbuh\XApi\Serializer\Tests\Fixtures\StatementResultJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class StatementResultSerializerTest extends AbstractSerializerTest
+class StatementResultSerializerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var StatementResultSerializer
@@ -27,8 +28,7 @@ class StatementResultSerializerTest extends AbstractSerializerTest
 
     protected function setUp()
     {
-        parent::setUp();
-        $this->statementResultSerializer = new StatementResultSerializer($this->serializer);
+        $this->statementResultSerializer = new StatementResultSerializer(Serializer::createSerializer());
     }
     public function testDeserializeStatementResult()
     {
@@ -54,7 +54,7 @@ class StatementResultSerializerTest extends AbstractSerializerTest
     {
         $statementResult = StatementResultFixtures::getStatementResult();
 
-        $this->assertJsonEquals(
+        $this->assertJsonStringEqualsJsonString(
             StatementResultJsonFixtures::getStatementResult(),
             $this->statementResultSerializer->serializeStatementResult($statementResult)
         );
@@ -87,7 +87,7 @@ class StatementResultSerializerTest extends AbstractSerializerTest
     {
         $statementResult = StatementResultFixtures::getStatementResultWithMore();
 
-        $this->assertJsonEquals(
+        $this->assertJsonStringEqualsJsonString(
             StatementResultJsonFixtures::getStatementResultWithMore(),
             $this->statementResultSerializer->serializeStatementResult($statementResult)
         );

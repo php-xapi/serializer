@@ -11,7 +11,7 @@
 
 namespace Xabbuh\XApi\Serializer;
 
-use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Xabbuh\XApi\Model\Statement;
 
 /**
@@ -66,7 +66,7 @@ class StatementSerializer implements StatementSerializerInterface
     {
         return $this->serializer->deserialize(
             $data,
-            'array<Xabbuh\XApi\Model\Statement>',
+            'Xabbuh\XApi\Model\Statement[]',
             'json'
         );
     }
