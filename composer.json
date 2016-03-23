@@ -14,10 +14,10 @@
     "require": {
         "php": ">=5.3.0",
         "jms/serializer": "~0.16",
-        "php-xapi/model": "~0.1"
+        "php-xapi/model": "^0.1.0"
     },
     "require-dev": {
-        "php-xapi/test-fixtures": "~0.1"
+        "php-xapi/test-fixtures": "^0.1.0"
     },
     "conflict": {
         "xabbuh/xapi-serializer": "*"

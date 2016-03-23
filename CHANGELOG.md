@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+0.1.1
+-----
+
+* restrict dependency versions to not pull in potentially BC breaking package
+  versions
+
 0.1.0
 -----
 
