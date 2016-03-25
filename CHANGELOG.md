@@ -4,6 +4,8 @@ CHANGELOG
 0.2.0
 -----
 
+* made the package compatible with version 0.2 of the `php-xapi/model` package
+
 * replaced the JMS Serializer with the Symfony Serializer component
 
 0.1.1

@@ -11,10 +11,10 @@
 
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
-use Xabbuh\XApi\Model\Account;
 use Xabbuh\XApi\Model\Actor;
 use Xabbuh\XApi\Model\Agent;
 use Xabbuh\XApi\Model\Group;
+use Xabbuh\XApi\Model\InverseFunctionalIdentifier;
 
 /**
  * Normalizes and denormalizes xAPI statement actors.
@@ -34,21 +34,7 @@ final class ActorNormalizer extends Normalizer
 
         $data = array();
 
-        if (null !== $mbox = $object->getMbox()) {
-            $data['mbox'] = $mbox;
-        }
-
-        if (null !== $mboxSha1Sum = $object->getMboxSha1Sum()) {
-            $data['mbox_sha1sum'] = $mboxSha1Sum;
-        }
-
-        if (null !== $openId = $object->getOpenId()) {
-            $data['openid'] = $openId;
-        }
-
-        if (null !== $account = $object->getAccount()) {
-            $data['account'] = $this->normalizeAttribute($account);
-        }
+        $this->normalizeInverseFunctionalIdentifier($object->getInverseFunctionalIdentifier(), $data);
 
         if (null !== $name = $object->getName()) {
             $data['name'] = $name;
@@ -82,17 +68,14 @@ final class ActorNormalizer extends Normalizer
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        $mbox = isset($data['mbox']) ? $data['mbox'] : null;
-        $mboxSha1Sum = isset($data['mboxSha1Sum']) ? $data['mboxSha1Sum'] : null;
-        $openId = isset($data['openid']) ? $data['openid'] : null;
+        $iri = $this->denormalizeInverseFunctionalIdentifier($data, $format, $context);
         $name = isset($data['name']) ? $data['name'] : null;
-        $account = $this->denormalizeAccount($data, $format, $context);
 
         if (isset($data['objectType']) && 'Group' === $data['objectType']) {
-            return $this->denormalizeGroup($mbox, $mboxSha1Sum, $openId, $account, $name, $data, $format, $context);
+            return $this->denormalizeGroup($iri, $name, $data, $format, $context);
         }
 
-        return new Agent($mbox, $mboxSha1Sum, $openId, $account, $name);
+        return new Agent($iri, $name);
     }
 
     /**
@@ -103,16 +86,58 @@ final class ActorNormalizer extends Normalizer
         return 'Xabbuh\XApi\Model\Actor' === $type;
     }
 
+    private function normalizeInverseFunctionalIdentifier(InverseFunctionalIdentifier $iri = null, &$data)
+    {
+        if (null === $iri) {
+            return;
+        }
+
+        if (null !== $mbox = $iri->getMbox()) {
+            $data['mbox'] = $mbox;
+        }
+
+        if (null !== $mboxSha1Sum = $iri->getMboxSha1Sum()) {
+            $data['mbox_sha1sum'] = $mboxSha1Sum;
+        }
+
+        if (null !== $openId = $iri->getOpenId()) {
+            $data['openid'] = $openId;
+        }
+
+        if (null !== $account = $iri->getAccount()) {
+            $data['account'] = $this->normalizeAttribute($account);
+        }
+    }
+
+    private function denormalizeInverseFunctionalIdentifier($data, $format = null, array $context = array())
+    {
+        if (isset($data['mbox'])) {
+            return InverseFunctionalIdentifier::withMbox($data['mbox']);
+        }
+
+        if (isset($data['mboxSha1Sum'])) {
+            return InverseFunctionalIdentifier::withMboxSha1Sum($data['mboxSha1Sum']);
+        }
+
+        if (isset($data['openid'])) {
+            return InverseFunctionalIdentifier::withOpenId($data['openid']);
+        }
+
+        if (isset($data['account'])) {
+            return InverseFunctionalIdentifier::withAccount($this->denormalizeAccount($data, $format, $context));
+        }
+    }
+
     private function denormalizeAccount($data, $format = null, array $context = array())
     {
         if (!isset($data['account'])) {
             return null;
         }
 
-        return $this->denormalizeData($data['account'], 'Xabbuh\XApi\Model\Account', $format,$context);
+        return $this->denormalizeData($data['account'], 'Xabbuh\XApi\Model\Account', $format, $context);
     }
 
-    private function denormalizeGroup($mbox, $mboxSha1Sum, $openId, Account $account = null, $name, $data, $format = null, array $context = array())
+    private function denormalizeGroup(InverseFunctionalIdentifier $iri = null, $name, $data, $format = null, array $context = array())
     {
         $members = array();
 
@@ -122,6 +147,6 @@ final class ActorNormalizer extends Normalizer
             }
         }
 
-        return new Group($mbox, $mboxSha1Sum, $openId, $account, $name, $members);
+        return new Group($iri, $name, $members);
     }
 }

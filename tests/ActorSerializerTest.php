@@ -37,7 +37,7 @@ class ActorSerializerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('\Xabbuh\XApi\Model\Agent', $actor);
         $this->assertEquals('Christian', $actor->getName());
-        $this->assertEquals('mailto:christian@example.com', $actor->getMbox());
+        $this->assertEquals('mailto:christian@example.com', $actor->getInverseFunctionalIdentifier()->getMbox());
     }
 
     public function testDeserializeAgentWithoutObjectType()
@@ -53,17 +53,18 @@ class ActorSerializerTest extends \PHPUnit_Framework_TestCase
         $group = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getGroup());
 
         $this->assertEquals('Example Group', $group->getName());
-        $this->assertEquals('http://example.com/homePage', $group->getAccount()->getHomePage());
-        $this->assertEquals('GroupAccount', $group->getAccount()->getName());
+        $this->assertEquals('http://example.com/homePage', $group->getInverseFunctionalIdentifier()->getAccount()->getHomePage());
+        $this->assertEquals('GroupAccount', $group->getInverseFunctionalIdentifier()->getAccount()->getName());
 
         $members = $group->getMembers();
         $this->assertEquals(2, count($members));
 
         $this->assertEquals('Andrew Downes', $members[0]->getName());
-        $this->assertEquals('mailto:andrew@example.com', $members[0]->getMbox());
+        $this->assertEquals('http://example.com/account', $members[0]->getInverseFunctionalIdentifier()->getAccount()->getHomePage());
+        $this->assertEquals('Member of a group', $members[0]->getInverseFunctionalIdentifier()->getAccount()->getName());
 
         $this->assertEquals('Aaron Silvers', $members[1]->getName());
-        $this->assertEquals('aaron.openid.example.org', $members[1]->getOpenId());
+        $this->assertEquals('aaron.openid.example.org', $members[1]->getInverseFunctionalIdentifier()->getOpenId());
     }
 
     public function testSerializeAgent()
