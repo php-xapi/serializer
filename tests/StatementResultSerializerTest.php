@@ -14,7 +14,7 @@ namespace Xabbuh\XApi\Serializer\Tests;
 use Xabbuh\XApi\DataFixtures\StatementResultFixtures;
 use Xabbuh\XApi\Serializer\Serializer;
 use Xabbuh\XApi\Serializer\StatementResultSerializer;
-use Xabbuh\XApi\Serializer\Tests\Fixtures\StatementResultJsonFixtures;
+use XApi\Fixtures\Json\StatementResultJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>

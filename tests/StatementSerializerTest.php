@@ -15,7 +15,7 @@ use Xabbuh\XApi\DataFixtures\StatementFixtures;
 use Xabbuh\XApi\Model\Statement;
 use Xabbuh\XApi\Serializer\Serializer;
 use Xabbuh\XApi\Serializer\StatementSerializer;
-use Xabbuh\XApi\Serializer\Tests\Fixtures\StatementJsonFixtures;
+use XApi\Fixtures\Json\StatementJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
