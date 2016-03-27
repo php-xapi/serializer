@@ -11,6 +11,7 @@
 
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
+use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use Xabbuh\XApi\Model\Actor;
 use Xabbuh\XApi\Model\Agent;
 use Xabbuh\XApi\Model\Group;
@@ -77,6 +78,10 @@ final class ActorNormalizer extends Normalizer
 
         if (isset($data['objectType']) && 'Group' === $data['objectType']) {
             return $this->denormalizeGroup($iri, $name, $data, $format, $context);
+        }
+
+        if (null === $iri) {
+            throw new InvalidArgumentException('Missing IRI for agent.');
         }
 
         return new Agent($iri, $name);

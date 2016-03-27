@@ -18,6 +18,17 @@ class ActorNormalizerSpec extends ObjectBehavior
         $this->shouldHaveType('Symfony\Component\Serializer\Normalizer\DenormalizerInterface');
     }
 
+    function it_requires_an_iri_when_denormalizing_an_agent()
+    {
+        $this
+            ->shouldThrow('\Symfony\Component\Serializer\Exception\InvalidArgumentException')
+            ->during('denormalize', array(
+                array('objectType' => 'Agent'),
+                'Xabbuh\XApi\Model\Actor',
+            ))
+        ;
+    }
+
     function it_supports_normalizing_agents()
     {
         $this->supportsNormalization(ActorFixtures::getTypicalAgent())->shouldBe(true);

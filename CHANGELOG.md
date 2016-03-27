@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* fixed deserializing incomplete agent objects that are missing the required
+  IRI (the `ActorNormalizer` wil now throw an exception)
+
 * add a `FilterNullValueNormalizer` that prevents `null` values from being
   serialized
 
