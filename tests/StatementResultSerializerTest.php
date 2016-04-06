@@ -32,22 +32,18 @@ class StatementResultSerializerTest extends \PHPUnit_Framework_TestCase
     }
     public function testDeserializeStatementResult()
     {
-        /** @var \Xabbuh\XApi\Model\StatementResult $statementResult */
+        $expectedResult = StatementResultFixtures::getStatementResult();
         $statementResult = $this->statementResultSerializer->deserializeStatementResult(
             StatementResultJsonFixtures::getStatementResult()
         );
         $statements = $statementResult->getStatements();
 
-        $this->assertEquals(2, count($statements));
-        $this->assertEquals(
-            '12345678-1234-5678-8234-567812345678',
-            $statements[0]->getId()
-        );
-        $this->assertEquals(
-            '12345678-1234-5678-8234-567812345679',
-            $statements[1]->getId()
-        );
-        $this->assertNull($statementResult->getMoreUrlPath());
+        $this->assertSame(count($expectedResult->getStatements()), count($statements));
+        $this->assertSame($expectedResult->getMoreUrlPath(), $statementResult->getMoreUrlPath());
+
+        foreach ($expectedResult->getStatements() as $index => $expectedStatement) {
+            $this->assertTrue($expectedStatement->equals($statements[$index]));
+        }
     }
 
     public function testSerializeMinimalStatement()
@@ -62,25 +58,18 @@ class StatementResultSerializerTest extends \PHPUnit_Framework_TestCase
 
     public function testDeserializeStatementResultWithMore()
     {
-        /** @var \Xabbuh\XApi\Model\StatementResult $statementResult */
+        $expectedResult = StatementResultFixtures::getStatementResultWithMore();
         $statementResult = $this->statementResultSerializer->deserializeStatementResult(
             StatementResultJsonFixtures::getStatementResultWithMore()
         );
         $statements = $statementResult->getStatements();
 
-        $this->assertEquals(2, count($statements));
-        $this->assertEquals(
-            '12345678-1234-5678-8234-567812345678',
-            $statements[0]->getId()
-        );
-        $this->assertEquals(
-            '12345678-1234-5678-8234-567812345679',
-            $statements[1]->getId()
-        );
-        $this->assertEquals(
-            '/xapi/statements/more/b381d8eca64a61a42c7b9b4ecc2fabb6',
-            $statementResult->getMoreUrlPath()
-        );
+        $this->assertSame(count($expectedResult->getStatements()), count($statements));
+        $this->assertSame($expectedResult->getMoreUrlPath(), $statementResult->getMoreUrlPath());
+
+        foreach ($expectedResult->getStatements() as $index => $expectedStatement) {
+            $this->assertTrue($expectedStatement->equals($statements[$index]));
+        }
     }
 
     public function testSerializeMinimalStatementWithMore()

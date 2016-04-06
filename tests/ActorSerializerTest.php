@@ -33,57 +33,39 @@ class ActorSerializerTest extends \PHPUnit_Framework_TestCase
 
     public function testDeserializeAgent()
     {
-        $actor = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getAgent());
+        $actor = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getTypicalAgentWithType());
 
-        $this->assertInstanceOf('\Xabbuh\XApi\Model\Agent', $actor);
-        $this->assertEquals('Christian', $actor->getName());
-        $this->assertEquals('mailto:christian@example.com', $actor->getInverseFunctionalIdentifier()->getMbox());
+        $this->assertTrue(ActorFixtures::getTypicalAgent()->equals($actor));
     }
 
     public function testDeserializeAgentWithoutObjectType()
     {
-        $actor = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getAgentWithoutObjectType());
+        $actor = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getTypicalAgent());
 
-        $this->assertInstanceOf('\Xabbuh\XApi\Model\Agent', $actor);
+        $this->assertTrue(ActorFixtures::getTypicalAgent()->equals($actor));
     }
 
     public function testDeserializeGroup()
     {
         /** @var \Xabbuh\XApi\Model\Group $group */
-        $group = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getGroup());
+        $group = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getAllPropertiesAndTwoTypicalAgentMembersGroup());
 
-        $this->assertEquals('Example Group', $group->getName());
-        $this->assertEquals('http://example.com/homePage', $group->getInverseFunctionalIdentifier()->getAccount()->getHomePage());
-        $this->assertEquals('GroupAccount', $group->getInverseFunctionalIdentifier()->getAccount()->getName());
-
-        $members = $group->getMembers();
-        $this->assertEquals(2, count($members));
-
-        $this->assertEquals('Andrew Downes', $members[0]->getName());
-        $this->assertEquals('http://example.com/account', $members[0]->getInverseFunctionalIdentifier()->getAccount()->getHomePage());
-        $this->assertEquals('Member of a group', $members[0]->getInverseFunctionalIdentifier()->getAccount()->getName());
-
-        $this->assertEquals('Aaron Silvers', $members[1]->getName());
-        $this->assertEquals('aaron.openid.example.org', $members[1]->getInverseFunctionalIdentifier()->getOpenId());
+        $this->assertTrue(ActorFixtures::getAllPropertiesAndTwoTypicalAgentMembersGroup()->equals($group));
     }
 
     public function testSerializeAgent()
     {
-        $agent = ActorFixtures::getAgent();
-
         $this->assertJsonStringEqualsJsonString(
-            ActorJsonFixtures::getAgent(),
-            $this->actorSerializer->serializeActor($agent)
+            ActorJsonFixtures::getTypicalAgentWithType(),
+            $this->actorSerializer->serializeActor(ActorFixtures::getTypicalAgent())
         );
     }
 
     public function testSerializeGroup()
     {
-        $group = ActorFixtures::getGroup();
-
         $this->assertJsonStringEqualsJsonString(
-            ActorJsonFixtures::getGroup(),
-            $this->actorSerializer->serializeActor($group)
+            ActorJsonFixtures::getTypicalGroup(),
+            $this->actorSerializer->serializeActor(ActorFixtures::getTypicalGroup())
         );
     }
 }

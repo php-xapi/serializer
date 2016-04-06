@@ -94,16 +94,12 @@ class StatementSerializerTest extends \PHPUnit_Framework_TestCase
         $statements = $this->statementSerializer->deserializeStatements(
             StatementJsonFixtures::getStatementCollection()
         );
+        $expectedCollection = StatementFixtures::getStatementCollection();
 
-        $this->assertTrue(is_array($statements));
-        $this->assertCount(2, $statements);
-        $this->assertEquals(
-            '12345678-1234-5678-8234-567812345678',
-            $statements[0]->getId()
-        );
-        $this->assertEquals(
-            '12345678-1234-5678-8234-567812345679',
-            $statements[1]->getId()
-        );
+        $this->assertSame(count($expectedCollection), count($statements));
+
+        foreach ($expectedCollection as $index => $expectedStatement) {
+            $this->assertTrue($expectedStatement->equals($statements[$index]));
+        }
     }
 }
