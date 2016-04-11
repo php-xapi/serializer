@@ -124,8 +124,8 @@ final class ActorNormalizer extends Normalizer
             return InverseFunctionalIdentifier::withMbox($data['mbox']);
         }
 
-        if (isset($data['mboxSha1Sum'])) {
-            return InverseFunctionalIdentifier::withMboxSha1Sum($data['mboxSha1Sum']);
+        if (isset($data['mbox_sha1sum'])) {
+            return InverseFunctionalIdentifier::withMboxSha1Sum($data['mbox_sha1sum']);
         }
 
         if (isset($data['openid'])) {

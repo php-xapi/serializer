@@ -29,6 +29,18 @@ class ActorNormalizerSpec extends ObjectBehavior
         ;
     }
 
+    function it_can_denormalize_agents_with_mbox_sha1_sum()
+    {
+        $data = array(
+            'mbox_sha1sum' => 'db77b9104b531ecbb0b967f6942549d0ba80fda1',
+        );
+
+        $agent = $this->denormalize($data, 'Xabbuh\XApi\Model\Actor');
+
+        $agent->shouldBeAnInstanceOf('Xabbuh\XApi\Model\Agent');
+        $agent->getInverseFunctionalIdentifier()->getMboxSha1Sum()->shouldReturn('db77b9104b531ecbb0b967f6942549d0ba80fda1');
+    }
+
     function it_supports_normalizing_agents()
     {
         $this->supportsNormalization(ActorFixtures::getTypicalAgent())->shouldBe(true);

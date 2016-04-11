@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+* fixed the key of the mbox SHA1 sum property when denormalizing actors
+
 * fixed deserializing incomplete agent objects that are missing the required
   IRI (the `ActorNormalizer` wil now throw an exception)
 
