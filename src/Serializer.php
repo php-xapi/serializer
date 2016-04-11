@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 use Xabbuh\XApi\Serializer\Normalizer\ActorNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\DocumentDataNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\FilterNullValueNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ObjectNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ResultNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\StatementNormalizer;
@@ -46,6 +47,7 @@ class Serializer
             new StatementNormalizer(),
             new StatementResultNormalizer(),
             new ArrayDenormalizer(),
+            new FilterNullValueNormalizer(new PropertyNormalizer()),
             new PropertyNormalizer(),
         );
         $encoders = array(

@@ -1,6 +1,14 @@
 CHANGELOG
 =========
 
+* add a `FilterNullValueNormalizer` that prevents `null` values from being
+  serialized
+
+* empty group member lists are not normalized, but the property will be omitted
+
+* ignore nullable result properties when they are not set during normalization
+  and denormalization
+
 0.2.0
 -----
 

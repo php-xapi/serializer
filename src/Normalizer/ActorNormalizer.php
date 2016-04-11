@@ -41,10 +41,14 @@ final class ActorNormalizer extends Normalizer
         }
 
         if ($object instanceof Group) {
-            $data['member'] = array();
+            $members = array();
 
             foreach ($object->getMembers() as $member) {
-                $data['member'][] = $this->normalize($member);
+                $members[] = $this->normalize($member);
+            }
+
+            if (count($members) > 0) {
+                $data['member'] = $members;
             }
 
             $data['objectType'] = 'Group';

@@ -29,11 +29,19 @@ final class ResultNormalizer extends Normalizer
             return null;
         }
 
-        $data = array(
-            'score' => $this->normalizeAttribute($object->getScore(), 'Xabbuh\XApi\Model\Score', $context),
-            'success' => $object->getSuccess(),
-            'completion' => $object->getCompletion(),
-        );
+        $data = array();
+
+        if (null !== $object->getScore()) {
+            $data['score'] = $this->normalizeAttribute($object->getScore(), 'Xabbuh\XApi\Model\Score', $context);
+        }
+
+        if (null !== $success = $object->getSuccess()) {
+            $data['success'] = $success;
+        }
+
+        if (null !== $completion = $object->getCompletion()) {
+            $data['completion'] = $completion;
+        }
 
         if (null !== $response = $object->getResponse()) {
             $data['response'] = $response;
@@ -59,11 +67,13 @@ final class ResultNormalizer extends Normalizer
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        $score = $this->denormalizeData($data['score'], 'Xabbuh\XApi\Model\Score', $format, $context);
+        $score = isset($data['score']) ? $this->denormalizeData($data['score'], 'Xabbuh\XApi\Model\Score', $format, $context) : null;
+        $success = isset($data['success']) ? $data['success'] : null;
+        $completion = isset($data['completion']) ? $data['completion'] : null;
         $response = isset($data['response']) ? $data['response'] : null;
         $duration = isset($data['duration']) ? $data['duration'] : null;
 
-        return new Result($score, $data['success'], $data['completion'], $response, $duration);
+        return new Result($score, $success, $completion, $response, $duration);
     }
 
     /**
