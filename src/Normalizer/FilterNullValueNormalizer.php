@@ -36,7 +36,7 @@ class FilterNullValueNormalizer implements NormalizerInterface, SerializerAwareI
     public function normalize($object, $format = null, array $context = array())
     {
         $data = $this->normalizer->normalize($object, $format, $context);
-        $filteredData = array();
+        $filteredData = new \ArrayObject();
 
         foreach ($data as $key => $value) {
             if (null !== $value) {

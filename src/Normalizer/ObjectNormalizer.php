@@ -73,7 +73,7 @@ final class ObjectNormalizer extends Normalizer
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        if (isset($data['objectType']) && 'Activity' === $data['objectType']) {
+        if (!isset($data['objectType']) || 'Activity' === $data['objectType']) {
             return $this->denormalizeActivity($data, $format, $context);
         }
 

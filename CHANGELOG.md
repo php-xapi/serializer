@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+* The object type is now optional. When the `objectType` key is omitted while an
+  object is deserialized, it is to be assumed that the type of the denormalized
+  object is activity.
+
+* Empty PHP arrays are now dumped as JSON objects instead of empty lists.
+
 * fixed the key of the mbox SHA1 sum property when denormalizing actors
 
 * fixed deserializing incomplete agent objects that are missing the required
