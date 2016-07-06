@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+0.2.1
+-----
+
 * The object type is now optional. When the `objectType` key is omitted while an
   object is deserialized, it is to be assumed that the type of the denormalized
   object is activity.
