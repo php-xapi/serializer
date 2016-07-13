@@ -47,6 +47,14 @@ final class StatementNormalizer extends Normalizer
             $data['result'] = $this->normalizeAttribute($result);
         }
 
+        if (null !== $result = $object->getCreated()) {
+            $data['timestamp'] = $this->normalizeAttribute($result);
+        }
+
+        if (null !== $result = $object->getStored()) {
+            $data['stored'] = $this->normalizeAttribute($result);
+        }
+
         return $data;
     }
 
@@ -69,6 +77,8 @@ final class StatementNormalizer extends Normalizer
         $object = $this->denormalizeData($data['object'], 'Xabbuh\XApi\Model\Object', $format, $context);
         $result = null;
         $authority = null;
+        $created = null;
+        $stored = null;
 
         if (isset($data['result'])) {
             $result = $this->denormalizeData($data['result'], 'Xabbuh\XApi\Model\Result', $format, $context);
@@ -78,7 +88,15 @@ final class StatementNormalizer extends Normalizer
             $authority = $this->denormalizeData($data['authority'], 'Xabbuh\XApi\Model\Actor', $format, $context);
         }
 
-        return new Statement($id, $actor, $verb, $object, $result, $authority);
+        if (isset($data['timestamp'])) {
+            $created = $this->denormalizeData($data['timestamp'], 'DateTime', $format, $context);
+        }
+
+        if (isset($data['stored'])) {
+            $stored = $this->denormalizeData($data['stored'], 'DateTime', $format, $context);
+        }
+
+        return new Statement($id, $actor, $verb, $object, $result, $authority, $created, $stored);
     }
 
     /**
