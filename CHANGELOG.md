@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+0.2.x (next version)
+-----
+
+* Added support for (de)serializing 'created' and 'stored' Statement properties.
+
 0.2.1
 -----
 
