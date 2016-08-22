@@ -25,7 +25,7 @@ use Xabbuh\XApi\Serializer\Normalizer\StatementNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\StatementResultNormalizer;
 
 /**
- * Entry point to setup the {@link \Symfony\Component\Serializer\Serializer Symfony Serializer component}
+ * Entry point to set up the {@link \Symfony\Component\Serializer\Serializer Symfony Serializer component}
  * for the Experience API.
  *
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
