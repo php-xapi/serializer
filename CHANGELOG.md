@@ -1,10 +1,11 @@
 CHANGELOG
 =========
 
-0.2.x (next version)
+0.2.2
 -----
 
-* Added support for (de)serializing 'created' and 'stored' Statement properties.
+* Added support for (de)serializing a statement's `timestamp` and `stored`
+  properties.
 
 0.2.1
 -----

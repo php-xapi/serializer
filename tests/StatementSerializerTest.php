@@ -65,6 +65,10 @@ class StatementSerializerTest extends \PHPUnit_Framework_TestCase
                 StatementJsonFixtures::getMinimalStatement(),
                 StatementFixtures::getMinimalStatement(),
             ),
+            'typical-statement' => array(
+                StatementJsonFixtures::getTypicalStatement(),
+                StatementFixtures::getTypicalStatement(),
+            ),
             'statement-reference' => array(
                 StatementJsonFixtures::getStatementWithStatementRef(),
                 StatementFixtures::getStatementWithStatementRef(),

@@ -17,8 +17,8 @@
         "symfony/serializer": "~2.8|~3.0"
     },
     "require-dev": {
-        "php-xapi/json-test-fixtures": "^0.2.0",
-        "php-xapi/test-fixtures": "^0.3.0",
+        "php-xapi/json-test-fixtures": "^0.2.2",
+        "php-xapi/test-fixtures": "^0.4.0",
         "phpspec/phpspec": "~2.0"
     },
     "conflict": {

@@ -13,7 +13,6 @@ namespace Xabbuh\XApi\Serializer;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
@@ -24,6 +23,7 @@ use Xabbuh\XApi\Serializer\Normalizer\ObjectNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ResultNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\StatementNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\StatementResultNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\TimestampNormalizer;
 
 /**
  * Entry point to set up the {@link \Symfony\Component\Serializer\Serializer Symfony Serializer component}
@@ -47,10 +47,10 @@ class Serializer
             new ResultNormalizer(),
             new StatementNormalizer(),
             new StatementResultNormalizer(),
+            new TimestampNormalizer(),
             new ArrayDenormalizer(),
             new FilterNullValueNormalizer(new PropertyNormalizer()),
             new PropertyNormalizer(),
-            new DateTimeNormalizer()
         );
         $encoders = array(
             new JsonEncoder(),
