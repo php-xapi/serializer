@@ -17,7 +17,10 @@ use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 use Xabbuh\XApi\Serializer\Normalizer\ActorNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\ContextActivitiesNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\ContextNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\DocumentDataNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\ExtensionsNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\FilterNullValueNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ObjectNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ResultNormalizer;
@@ -42,7 +45,10 @@ class Serializer
     {
         $normalizers = array(
             new ActorNormalizer(),
+            new ContextNormalizer(),
+            new ContextActivitiesNormalizer(),
             new DocumentDataNormalizer(),
+            new ExtensionsNormalizer(),
             new ObjectNormalizer(),
             new ResultNormalizer(),
             new StatementNormalizer(),

@@ -50,11 +50,22 @@ final class ObjectNormalizer extends Normalizer
         }
 
         if ($object instanceof SubStatement) {
-            $subStatement = new Statement($object->getId(), $object->getActor(), $object->getVerb(), $object->getObject(), $object->getResult());
-            $subStatementData = $this->normalizeAttribute($subStatement, $format, $context);
-            $subStatementData['objectType'] = 'SubStatement';
+            $data = array(
+                'objectType' => 'SubStatement',
+                'actor' => $this->normalizeAttribute($object->getActor(), $format, $context),
+                'verb' => $this->normalizeAttribute($object->getVerb(), $format, $context),
+                'object' => $this->normalizeAttribute($object->getObject(), $format, $context),
+            );
 
-            return $subStatementData;
+            if (null !== $result = $object->getResult()) {
+                $data['result'] = $this->normalizeAttribute($result, $format, $context);
+            }
+
+            if (null !== $statementContext = $object->getContext()) {
+                $data['context'] = $this->normalizeAttribute($statementContext, $format, $context);
+            }
+
+            return $data;
         }
 
         return null;
@@ -113,19 +124,20 @@ final class ObjectNormalizer extends Normalizer
 
     private function denormalizeSubStatement(array  $data, $format = null, array $context = array())
     {
-        $statementData = array(
-            'actor' => $data['actor'],
-            'verb' => $data['verb'],
-            'object' => $data['object'],
-        );
+        $actor = $this->denormalizeData($data['actor'], 'Xabbuh\XApi\Model\Actor', $format, $context);
+        $verb = $this->denormalizeData($data['verb'], 'Xabbuh\XApi\Model\Verb', $format, $context);
+        $object = $this->denormalizeData($data['object'], 'Xabbuh\XApi\Model\Object', $format, $context);
+        $result = null;
+        $statementContext = null;
 
         if (isset($data['result'])) {
-            $statementData['result'] = $data['result'];
+            $result = $this->denormalizeData($data['result'], 'Xabbuh\XApi\Model\Result', $format, $context);
         }
 
-        /** @var Statement $statement */
-        $statement = $this->denormalizeData($statementData, 'Xabbuh\XApi\Model\Statement', $format, $context);
+        if (isset($data['context'])) {
+            $statementContext = $this->denormalizeData($data['context'], 'Xabbuh\XApi\Model\Context', $format, $context);
+        }
 
-        return new SubStatement(null, $statement->getActor(), $statement->getVerb(), $statement->getObject(), $statement->getResult());
+        return new SubStatement(null, $actor, $verb, $object, $result, $statementContext);
     }
 }

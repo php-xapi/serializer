@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* Added support for normalizing and denormalizing statement contexts, context
+  activities, and extensions.
+
 * Properly denormalize statement objects (activities, agents, groups, statement
   references, and sub statements).
 

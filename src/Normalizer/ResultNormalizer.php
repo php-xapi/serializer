@@ -51,6 +51,14 @@ final class ResultNormalizer extends Normalizer
             $data['duration'] = $duration;
         }
 
+        if (null !== $extensions = $object->getExtensions()) {
+            $data['extensions'] = $this->normalizeAttribute($extensions, 'Xabbuh\XApi\Model\Extensions', $context);
+        }
+
+        if (empty($data)) {
+            return new \stdClass();
+        }
+
         return $data;
     }
 
@@ -72,8 +80,9 @@ final class ResultNormalizer extends Normalizer
         $completion = isset($data['completion']) ? $data['completion'] : null;
         $response = isset($data['response']) ? $data['response'] : null;
         $duration = isset($data['duration']) ? $data['duration'] : null;
+        $extensions = isset($data['extensions']) ? $this->denormalizeData($data['extensions'], 'Xabbuh\XApi\Model\Extensions', $format, $context) : null;
 
-        return new Result($score, $success, $completion, $response, $duration);
+        return new Result($score, $success, $completion, $response, $duration, $extensions);
     }
 
     /**

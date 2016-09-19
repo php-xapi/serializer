@@ -92,7 +92,7 @@ final class ActorNormalizer extends Normalizer
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return 'Xabbuh\XApi\Model\Actor' === $type;
+        return 'Xabbuh\XApi\Model\Actor' === $type || 'Xabbuh\XApi\Model\Agent' === $type || 'Xabbuh\XApi\Model\Group' === $type;
     }
 
     private function normalizeInverseFunctionalIdentifier(InverseFunctionalIdentifier $iri = null, &$data)

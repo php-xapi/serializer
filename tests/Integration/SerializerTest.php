@@ -14,7 +14,10 @@ namespace Xabbuh\XApi\Serializer\Tests\Integration;
 use Symfony\Component\Serializer\SerializerInterface;
 use Xabbuh\XApi\Model\Activity;
 use Xabbuh\XApi\Model\Actor;
+use Xabbuh\XApi\Model\Context;
+use Xabbuh\XApi\Model\ContextActivities;
 use Xabbuh\XApi\Model\Definition;
+use Xabbuh\XApi\Model\Extensions;
 use Xabbuh\XApi\Model\Result;
 use Xabbuh\XApi\Model\Score;
 use Xabbuh\XApi\Model\StatementReference;
@@ -93,6 +96,64 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider serializeContextData
+     */
+    public function testSerializeContext(Context $context, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($context, 'json'));
+    }
+
+    public function serializeContextData()
+    {
+        return $this->buildSerializeTestCases('Context');
+    }
+
+    /**
+     * @dataProvider deserializeContextData
+     */
+    public function testDeserializeContext($json, Context $expectedContext)
+    {
+        $context = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Context', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Context', $context);
+        $this->assertTrue($expectedContext == $context, 'Deserialized context has the expected properties');
+    }
+
+    public function deserializeContextData()
+    {
+        return $this->buildDeserializeTestCases('Context');
+    }
+
+    /**
+     * @dataProvider serializeContextActivitiesData
+     */
+    public function testSerializeContextActivities(ContextActivities $contextActivities, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($contextActivities, 'json'));
+    }
+
+    public function serializeContextActivitiesData()
+    {
+        return $this->buildSerializeTestCases('ContextActivities');
+    }
+
+    /**
+     * @dataProvider deserializeContextActivitiesData
+     */
+    public function testDeserializeContextActivities($json, ContextActivities $expectedContextActivities)
+    {
+        $contextActivities = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\ContextActivities', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\ContextActivities', $contextActivities);
+        $this->assertTrue($expectedContextActivities == $contextActivities, 'Deserialized context activities have the expected properties');
+    }
+
+    public function deserializeContextActivitiesData()
+    {
+        return $this->buildDeserializeTestCases('ContextActivities');
+    }
+
+    /**
      * @dataProvider serializeDefinitionData
      */
     public function testSerializeDefinition(Definition $definition, $expectedJson)
@@ -119,6 +180,35 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function deserializeDefinitionData()
     {
         return $this->buildDeserializeTestCases('Definition');
+    }
+
+    /**
+     * @dataProvider serializeExtensionsData
+     */
+    public function testSerializeExtensions(Extensions $extensions, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($extensions, 'json'));
+    }
+
+    public function serializeExtensionsData()
+    {
+        return $this->buildSerializeTestCases('Extensions');
+    }
+
+    /**
+     * @dataProvider deserializeExtensionsData
+     */
+    public function testDeserializeExtensions($json, Extensions $expectedExtensions)
+    {
+        $extensions = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Extensions', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Extensions', $extensions);
+        $this->assertTrue($expectedExtensions->equals($expectedExtensions), 'Deserialized extensions have the expected properties');
+    }
+
+    public function deserializeExtensionsData()
+    {
+        return $this->buildDeserializeTestCases('Extensions');
     }
 
     /**
