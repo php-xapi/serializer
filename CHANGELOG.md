@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* Properly denormalize statement objects (activities, agents, groups, statement
+  references, and sub statements).
+
 0.2.2
 -----
 

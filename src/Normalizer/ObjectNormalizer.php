@@ -77,6 +77,10 @@ final class ObjectNormalizer extends Normalizer
             return $this->denormalizeActivity($data, $format, $context);
         }
 
+        if (isset($data['objectType']) && ('Agent' === $data['objectType'] || 'Group' === $data['objectType'])) {
+            return $this->denormalizeData($data, 'Xabbuh\XApi\Model\Actor', $format, $context);
+        }
+
         if (isset($data['objectType']) && 'SubStatement' === $data['objectType']) {
             return $this->denormalizeSubStatement($data, $format, $context);
         }
@@ -93,7 +97,7 @@ final class ObjectNormalizer extends Normalizer
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
-        return 'Xabbuh\XApi\Model\Object' === $type;
+        return 'Xabbuh\XApi\Model\Activity' === $type || 'Xabbuh\XApi\Model\Object' === $type || 'Xabbuh\XApi\Model\StatementReference' === $type || 'Xabbuh\XApi\Model\SubStatement' === $type;
     }
 
     private function denormalizeActivity(array  $data, $format = null, array $context = array())

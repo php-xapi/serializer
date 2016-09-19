@@ -17,6 +17,8 @@ use Xabbuh\XApi\Model\Actor;
 use Xabbuh\XApi\Model\Definition;
 use Xabbuh\XApi\Model\Result;
 use Xabbuh\XApi\Model\Score;
+use Xabbuh\XApi\Model\StatementReference;
+use Xabbuh\XApi\Model\SubStatement;
 use Xabbuh\XApi\Model\Verb;
 use Xabbuh\XApi\Serializer\Serializer;
 
@@ -79,7 +81,7 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeserializeActivity($json, Activity $expectedActivity)
     {
-        $activity = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Object', 'json');
+        $activity = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Activity', 'json');
 
         $this->assertInstanceOf('Xabbuh\XApi\Model\Activity', $activity);
         $this->assertTrue($expectedActivity->equals($activity), 'Deserialized activity has the expected properties');
@@ -175,6 +177,64 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function deserializeScoreData()
     {
         return $this->buildDeserializeTestCases('Score');
+    }
+
+    /**
+     * @dataProvider serializeStatementReferenceData
+     */
+    public function testSerializeStatementReference(StatementReference $statementReference, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($statementReference, 'json'));
+    }
+
+    public function serializeStatementReferenceData()
+    {
+        return $this->buildSerializeTestCases('StatementReference');
+    }
+
+    /**
+     * @dataProvider deserializeStatementReferenceData
+     */
+    public function testDeserializeStatementReference($json, StatementReference $expectedStatementReference)
+    {
+        $statementReference = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\StatementReference', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\StatementReference', $statementReference);
+        $this->assertTrue($expectedStatementReference->equals($statementReference), 'Deserialized StatementReference has the expected properties');
+    }
+
+    public function deserializeStatementReferenceData()
+    {
+        return $this->buildDeserializeTestCases('StatementReference');
+    }
+
+    /**
+     * @dataProvider serializeSubStatementData
+     */
+    public function testSerializeSubStatement(SubStatement $subStatement, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($subStatement, 'json'));
+    }
+
+    public function serializeSubStatementData()
+    {
+        return $this->buildSerializeTestCases('SubStatement');
+    }
+
+    /**
+     * @dataProvider deserializeSubStatementData
+     */
+    public function testDeserializeSubStatement($json, SubStatement $expectedSubStatement)
+    {
+        $subStatement = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\SubStatement', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\SubStatement', $subStatement);
+        $this->assertTrue($expectedSubStatement->equals($subStatement), 'Deserialized SubStatement has the expected properties');
+    }
+
+    public function deserializeSubStatementData()
+    {
+        return $this->buildDeserializeTestCases('SubStatement');
     }
 
     /**
