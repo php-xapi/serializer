@@ -12,6 +12,7 @@
 namespace Xabbuh\XApi\Serializer\Tests\Integration;
 
 use Symfony\Component\Serializer\SerializerInterface;
+use Xabbuh\XApi\Model\Account;
 use Xabbuh\XApi\Model\Activity;
 use Xabbuh\XApi\Model\Actor;
 use Xabbuh\XApi\Model\Context;
@@ -35,6 +36,35 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->serializer = Serializer::createSerializer();
+    }
+
+    /**
+     * @dataProvider serializeAccountData
+     */
+    public function testSerializeAccount(Account $account, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($account, 'json'));
+    }
+
+    public function serializeAccountData()
+    {
+        return $this->buildSerializeTestCases('Account');
+    }
+
+    /**
+     * @dataProvider deserializeAccountData
+     */
+    public function testDeserializeAccount($json, Account $expectedAccount)
+    {
+        $account = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Account', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Account', $account);
+        $this->assertTrue($expectedAccount->equals($account), 'Deserialized account has the expected properties');
+    }
+
+    public function deserializeAccountData()
+    {
+        return $this->buildDeserializeTestCases('Account');
     }
 
     /**
@@ -365,6 +395,10 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
         $jsonFixturesMethods = get_class_methods($jsonFixturesClass);
 
         foreach (get_class_methods($phpFixturesClass) as $method) {
+            if (false !== strpos($method, 'ForQuery')) {
+                continue;
+            }
+
             // serialized data will always contain type information
             if (in_array($method.'WithType', $jsonFixturesMethods)) {
                 $jsonMethod = $method.'WithType';
