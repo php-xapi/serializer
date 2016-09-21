@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* Updated how statement ids are normalized/denormalized to reflect the introduction
+  of the `StatementId` value object in the `php-xapi/model` package.
+
 * Added support for normalizing and denormalizing statement contexts, context
   activities, and extensions.
 

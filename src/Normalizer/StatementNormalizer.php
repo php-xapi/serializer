@@ -12,6 +12,7 @@
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
 use Xabbuh\XApi\Model\Statement;
+use Xabbuh\XApi\Model\StatementId;
 
 /**
  * Normalizes and denormalizes xAPI statements.
@@ -36,7 +37,7 @@ final class StatementNormalizer extends Normalizer
         );
 
         if (null !== $id = $object->getId()) {
-            $data['id'] = $id;
+            $data['id'] = $id->getValue();
         }
 
         if (null !== $authority = $object->getAuthority()) {
@@ -71,7 +72,7 @@ final class StatementNormalizer extends Normalizer
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        $id = isset($data['id']) ? $data['id'] : null;
+        $id = isset($data['id']) ? StatementId::fromString($data['id']) : null;
         $actor = $this->denormalizeData($data['actor'], 'Xabbuh\XApi\Model\Actor', $format, $context);
         $verb = $this->denormalizeData($data['verb'], 'Xabbuh\XApi\Model\Verb', $format, $context);
         $object = $this->denormalizeData($data['object'], 'Xabbuh\XApi\Model\Object', $format, $context);

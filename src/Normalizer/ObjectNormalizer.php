@@ -14,6 +14,7 @@ namespace Xabbuh\XApi\Serializer\Normalizer;
 use Xabbuh\XApi\Model\Activity;
 use Xabbuh\XApi\Model\Object;
 use Xabbuh\XApi\Model\Statement;
+use Xabbuh\XApi\Model\StatementId;
 use Xabbuh\XApi\Model\StatementReference;
 use Xabbuh\XApi\Model\SubStatement;
 
@@ -45,7 +46,7 @@ final class ObjectNormalizer extends Normalizer
         if ($object instanceof StatementReference) {
             return array(
                 'objectType' => 'StatementRef',
-                'id' => $object->getStatementId(),
+                'id' => $object->getStatementId()->getValue(),
             );
         }
 
@@ -97,7 +98,7 @@ final class ObjectNormalizer extends Normalizer
         }
 
         if (isset($data['objectType']) && 'StatementRef' === $data['objectType']) {
-            return new StatementReference($data['id']);
+            return new StatementReference(StatementId::fromString($data['id']));
         }
 
         return null;
