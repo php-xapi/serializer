@@ -19,14 +19,17 @@ use Symfony\Component\Serializer\Serializer as SymfonySerializer;
 use Xabbuh\XApi\Serializer\Normalizer\ActorNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ContextActivitiesNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ContextNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\DefinitionNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\DocumentDataNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ExtensionsNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\FilterNullValueNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\LanguageMapNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ObjectNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ResultNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\StatementNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\StatementResultNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\TimestampNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\VerbNormalizer;
 
 /**
  * Entry point to set up the {@link \Symfony\Component\Serializer\Serializer Symfony Serializer component}
@@ -47,13 +50,16 @@ class Serializer
             new ActorNormalizer(),
             new ContextNormalizer(),
             new ContextActivitiesNormalizer(),
+            new DefinitionNormalizer(),
             new DocumentDataNormalizer(),
             new ExtensionsNormalizer(),
+            new LanguageMapNormalizer(),
             new ObjectNormalizer(),
             new ResultNormalizer(),
             new StatementNormalizer(),
             new StatementResultNormalizer(),
             new TimestampNormalizer(),
+            new VerbNormalizer(),
             new ArrayDenormalizer(),
             new FilterNullValueNormalizer(new PropertyNormalizer()),
             new PropertyNormalizer(),

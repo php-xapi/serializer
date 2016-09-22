@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+* Added support for normalizing/denormalizing `LanguageMap` instances which
+  is now the data type for the `$display` property of the `Verb` class as
+  well as for the `$name` and `$description` properties of the `Definition`
+  class.
+
 * Updated how statement ids are normalized/denormalized to reflect the introduction
   of the `StatementId` value object in the `php-xapi/model` package.
 
