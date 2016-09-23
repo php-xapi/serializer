@@ -23,6 +23,7 @@ use Xabbuh\XApi\Serializer\Normalizer\DefinitionNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\DocumentDataNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ExtensionsNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\FilterNullValueNormalizer;
+use Xabbuh\XApi\Serializer\Normalizer\InteractionComponentNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\LanguageMapNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ObjectNormalizer;
 use Xabbuh\XApi\Serializer\Normalizer\ResultNormalizer;
@@ -53,6 +54,7 @@ class Serializer
             new DefinitionNormalizer(),
             new DocumentDataNormalizer(),
             new ExtensionsNormalizer(),
+            new InteractionComponentNormalizer(),
             new LanguageMapNormalizer(),
             new ObjectNormalizer(),
             new ResultNormalizer(),

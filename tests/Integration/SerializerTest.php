@@ -19,6 +19,7 @@ use Xabbuh\XApi\Model\Context;
 use Xabbuh\XApi\Model\ContextActivities;
 use Xabbuh\XApi\Model\Definition;
 use Xabbuh\XApi\Model\Extensions;
+use Xabbuh\XApi\Model\Interaction\InteractionComponent;
 use Xabbuh\XApi\Model\Result;
 use Xabbuh\XApi\Model\Score;
 use Xabbuh\XApi\Model\StatementReference;
@@ -201,9 +202,10 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeserializeDefinition($json, Definition $expectedDefinition)
     {
-        $definition = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Definition', 'json');
+        $expectedClass = get_class($expectedDefinition);
+        $definition = $this->serializer->deserialize($json, $expectedClass, 'json');
 
-        $this->assertInstanceOf('Xabbuh\XApi\Model\Definition', $definition);
+        $this->assertSame($expectedClass, get_class($definition), sprintf('Deserialized definition is an instance of "%s"', $expectedClass));
         $this->assertTrue($expectedDefinition->equals($definition), 'Deserialized definition has the expected properties');
     }
 
@@ -239,6 +241,35 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function deserializeExtensionsData()
     {
         return $this->buildDeserializeTestCases('Extensions');
+    }
+
+    /**
+     * @dataProvider serializeInteractionComponentData
+     */
+    public function testSerializeInteractionComponent(InteractionComponent $interactionComponent, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($interactionComponent, 'json'));
+    }
+
+    public function serializeInteractionComponentData()
+    {
+        return $this->buildSerializeTestCases('InteractionComponent');
+    }
+
+    /**
+     * @dataProvider deserializeInteractionComponentData
+     */
+    public function testDeserializeInteractionComponent($json, InteractionComponent $expectedInteractionComponent)
+    {
+        $interactionComponent = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Interaction\InteractionComponent', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Interaction\InteractionComponent', $interactionComponent);
+        $this->assertTrue($expectedInteractionComponent->equals($interactionComponent), 'Deserialized interaction component has the expected properties');
+    }
+
+    public function deserializeInteractionComponentData()
+    {
+        return $this->buildDeserializeTestCases('InteractionComponent');
     }
 
     /**
