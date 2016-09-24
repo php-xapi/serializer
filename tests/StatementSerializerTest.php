@@ -69,6 +69,22 @@ class StatementSerializerTest extends \PHPUnit_Framework_TestCase
                 StatementJsonFixtures::getTypicalStatement(),
                 StatementFixtures::getTypicalStatement(),
             ),
+            'voiding-statement' => array(
+                StatementJsonFixtures::getVoidingStatement(),
+                StatementFixtures::getVoidingStatement('12345678-1234-5678-8234-567812345678'),
+            ),
+            'attachment-statement' => array(
+                StatementJsonFixtures::getAttachmentStatement(),
+                StatementFixtures::getAttachmentStatement(),
+            ),
+            'statement-with-group-actor' => array(
+                StatementJsonFixtures::getStatementWithGroupActor(),
+                StatementFixtures::getStatementWithGroupActor(),
+            ),
+            'statement-with-group-actor-without-members' => array(
+                StatementJsonFixtures::getStatementWithGroupActorWithoutMembers(),
+                StatementFixtures::getStatementWithGroupActorWithoutMembers(),
+            ),
             'statement-reference' => array(
                 StatementJsonFixtures::getStatementWithStatementRef(),
                 StatementFixtures::getStatementWithStatementRef(),

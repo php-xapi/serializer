@@ -31,9 +31,9 @@ final class StatementNormalizer extends Normalizer
         }
 
         $data = array(
-            'actor' => $this->normalizeAttribute($object->getActor()),
-            'verb' => $this->normalizeAttribute($object->getVerb()),
-            'object' => $this->normalizeAttribute($object->getObject()),
+            'actor' => $this->normalizeAttribute($object->getActor(), $format, $context),
+            'verb' => $this->normalizeAttribute($object->getVerb(), $format, $context),
+            'object' => $this->normalizeAttribute($object->getObject(), $format, $context),
         );
 
         if (null !== $id = $object->getId()) {
@@ -41,19 +41,23 @@ final class StatementNormalizer extends Normalizer
         }
 
         if (null !== $authority = $object->getAuthority()) {
-            $data['authority'] = $this->normalizeAttribute($authority);
+            $data['authority'] = $this->normalizeAttribute($authority, $format, $context);
         }
 
         if (null !== $result = $object->getResult()) {
-            $data['result'] = $this->normalizeAttribute($result);
+            $data['result'] = $this->normalizeAttribute($result, $format, $context);
         }
 
         if (null !== $result = $object->getCreated()) {
-            $data['timestamp'] = $this->normalizeAttribute($result);
+            $data['timestamp'] = $this->normalizeAttribute($result, $format, $context);
         }
 
         if (null !== $result = $object->getStored()) {
-            $data['stored'] = $this->normalizeAttribute($result);
+            $data['stored'] = $this->normalizeAttribute($result, $format, $context);
+        }
+
+        if (null !== $attachments = $object->getAttachments()) {
+            $data['attachments'] = $this->normalizeAttribute($attachments, $format, $context);
         }
 
         return $data;
@@ -80,6 +84,7 @@ final class StatementNormalizer extends Normalizer
         $authority = null;
         $created = null;
         $stored = null;
+        $attachments = null;
 
         if (isset($data['result'])) {
             $result = $this->denormalizeData($data['result'], 'Xabbuh\XApi\Model\Result', $format, $context);
@@ -97,7 +102,11 @@ final class StatementNormalizer extends Normalizer
             $stored = $this->denormalizeData($data['stored'], 'DateTime', $format, $context);
         }
 
-        return new Statement($id, $actor, $verb, $object, $result, $authority, $created, $stored);
+        if (isset($data['attachments'])) {
+            $attachments = $this->denormalizeData($data['attachments'], 'Xabbuh\XApi\Model\Attachment[]', $format, $context);
+        }
+
+        return new Statement($id, $actor, $verb, $object, $result, $authority, $created, $stored, null, $attachments);
     }
 
     /**

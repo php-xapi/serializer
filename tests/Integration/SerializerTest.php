@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Xabbuh\XApi\Model\Account;
 use Xabbuh\XApi\Model\Activity;
 use Xabbuh\XApi\Model\Actor;
+use Xabbuh\XApi\Model\Attachment;
 use Xabbuh\XApi\Model\Context;
 use Xabbuh\XApi\Model\ContextActivities;
 use Xabbuh\XApi\Model\Definition;
@@ -124,6 +125,35 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
     public function deserializeActivityData()
     {
         return $this->buildDeserializeTestCases('Activity');
+    }
+
+    /**
+     * @dataProvider serializeAttachmentData
+     */
+    public function testSerializeAttachment(Attachment $attachment, $expectedJson)
+    {
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->serializer->serialize($attachment, 'json'));
+    }
+
+    public function serializeAttachmentData()
+    {
+        return $this->buildSerializeTestCases('Attachment');
+    }
+
+    /**
+     * @dataProvider deserializeAttachmentData
+     */
+    public function testDeserializeAttachment($json, Attachment $expectedAttachment)
+    {
+        $attachment = $this->serializer->deserialize($json, 'Xabbuh\XApi\Model\Attachment', 'json');
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Attachment', $attachment);
+        $this->assertTrue($expectedAttachment->equals($attachment), 'Deserialized attachment has the expected properties');
+    }
+
+    public function deserializeAttachmentData()
+    {
+        return $this->buildDeserializeTestCases('Attachment');
     }
 
     /**
