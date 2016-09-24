@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* Fixed that context attributes are no longer ignored when statements are
+  normalized/denormalized.
+
 * Added support for normalizing/denormalizing activity definition extensions.
 
 * Added support for normalizing/denormalizing statement activity interactions.

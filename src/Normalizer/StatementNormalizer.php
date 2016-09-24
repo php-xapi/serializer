@@ -56,6 +56,10 @@ final class StatementNormalizer extends Normalizer
             $data['stored'] = $this->normalizeAttribute($result, $format, $context);
         }
 
+        if (null !== $object->getContext()) {
+            $data['context'] = $this->normalizeAttribute($object->getContext(), $format, $context);
+        }
+
         if (null !== $attachments = $object->getAttachments()) {
             $data['attachments'] = $this->normalizeAttribute($attachments, $format, $context);
         }
@@ -84,6 +88,7 @@ final class StatementNormalizer extends Normalizer
         $authority = null;
         $created = null;
         $stored = null;
+        $statementContext = null;
         $attachments = null;
 
         if (isset($data['result'])) {
@@ -102,11 +107,15 @@ final class StatementNormalizer extends Normalizer
             $stored = $this->denormalizeData($data['stored'], 'DateTime', $format, $context);
         }
 
+        if (isset($data['context'])) {
+            $statementContext = $this->denormalizeData($data['context'], 'Xabbuh\XApi\Model\Context', $format, $context);
+        }
+
         if (isset($data['attachments'])) {
             $attachments = $this->denormalizeData($data['attachments'], 'Xabbuh\XApi\Model\Attachment[]', $format, $context);
         }
 
-        return new Statement($id, $actor, $verb, $object, $result, $authority, $created, $stored, null, $attachments);
+        return new Statement($id, $actor, $verb, $object, $result, $authority, $created, $stored, $statementContext, $attachments);
     }
 
     /**

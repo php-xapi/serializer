@@ -105,6 +105,10 @@ class StatementSerializerTest extends \PHPUnit_Framework_TestCase
                 StatementJsonFixtures::getStatementWithGroupAuthority(),
                 StatementFixtures::getStatementWithGroupAuthority(),
             ),
+            'all-properties-statement' => array(
+                StatementJsonFixtures::getAllPropertiesStatement(),
+                StatementFixtures::getAllPropertiesStatement(),
+            ),
         );
     }
 
