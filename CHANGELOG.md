@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+* Added support for normalizing/denormalizing activity definition extensions.
+
 * Added support for normalizing/denormalizing statement activity interactions.
 
 * Added support for normalizing/denormalizing `LanguageMap` instances which
