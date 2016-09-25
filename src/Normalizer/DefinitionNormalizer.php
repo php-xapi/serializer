@@ -15,6 +15,8 @@ use Xabbuh\XApi\Model\Interaction\OtherInteractionDefinition;
 use Xabbuh\XApi\Model\Interaction\PerformanceInteractionDefinition;
 use Xabbuh\XApi\Model\Interaction\SequencingInteractionDefinition;
 use Xabbuh\XApi\Model\Interaction\TrueFalseInteractionDefinition;
+use Xabbuh\XApi\Model\IRI;
+use Xabbuh\XApi\Model\IRL;
 
 /**
  * Normalizes and denormalizes PHP arrays to {@link Definition} instances.
@@ -43,11 +45,11 @@ final class DefinitionNormalizer extends Normalizer
         }
 
         if (null !== $type = $object->getType()) {
-            $data['type'] = $type;
+            $data['type'] = $type->getValue();
         }
 
         if (null !== $moreInfo = $object->getMoreInfo()) {
-            $data['moreInfo'] = $moreInfo;
+            $data['moreInfo'] = $moreInfo->getValue();
         }
 
         if (null !== $extensions = $object->getExtensions()) {
@@ -215,11 +217,11 @@ final class DefinitionNormalizer extends Normalizer
         }
 
         if (isset($data['type'])) {
-            $definition = $definition->withType($data['type']);
+            $definition = $definition->withType(IRI::fromString($data['type']));
         }
 
         if (isset($data['moreInfo'])) {
-            $definition = $definition->withMoreInfo($data['moreInfo']);
+            $definition = $definition->withMoreInfo(IRL::fromString($data['moreInfo']));
         }
 
         if (isset($data['extensions'])) {

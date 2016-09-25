@@ -14,6 +14,7 @@ namespace Xabbuh\XApi\Serializer\Normalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Xabbuh\XApi\Model\Extensions;
+use Xabbuh\XApi\Model\IRI;
 
 /**
  * Normalizes and denormalizes xAPI extensions.
@@ -33,11 +34,17 @@ final class ExtensionsNormalizer implements DenormalizerInterface, NormalizerInt
 
         $extensions = $object->getExtensions();
 
-        if (empty($extensions)) {
+        if (count($extensions) === 0) {
             return new \stdClass();
         }
 
-        return $extensions;
+        $data = array();
+
+        foreach ($extensions as $iri) {
+            $data[$iri->getValue()] = $extensions[$iri];
+        }
+
+        return $data;
     }
 
     /**
@@ -53,7 +60,13 @@ final class ExtensionsNormalizer implements DenormalizerInterface, NormalizerInt
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        return new Extensions($data);
+        $extensions = new \SplObjectStorage();
+
+        foreach ($data as $iri => $value) {
+            $extensions->attach(IRI::fromString($iri), $value);
+        }
+
+        return new Extensions($extensions);
     }
 
     /**

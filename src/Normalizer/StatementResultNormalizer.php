@@ -11,6 +11,7 @@
 
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
+use Xabbuh\XApi\Model\IRL;
 use Xabbuh\XApi\Model\StatementResult;
 
 /**
@@ -38,7 +39,7 @@ final class StatementResultNormalizer extends Normalizer
         }
 
         if (null !== $moreUrlPath = $object->getMoreUrlPath()) {
-            $data['more'] = $moreUrlPath;
+            $data['more'] = $moreUrlPath->getValue();
         }
 
         return $data;
@@ -58,8 +59,13 @@ final class StatementResultNormalizer extends Normalizer
     public function denormalize($data, $class, $format = null, array $context = array())
     {
         $statements = $this->denormalizeData($data['statements'], 'Xabbuh\XApi\Model\Statement[]');
+        $moreUrlPath = null;
 
-        return new StatementResult($statements, isset($data['more']) ? $data['more'] : null);
+        if (isset($data['more'])) {
+            $moreUrlPath = IRL::fromString($data['more']);
+        }
+
+        return new StatementResult($statements, $moreUrlPath);
     }
 
     /**

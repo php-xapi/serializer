@@ -65,7 +65,7 @@ class StatementResultSerializerTest extends \PHPUnit_Framework_TestCase
         $statements = $statementResult->getStatements();
 
         $this->assertSame(count($expectedResult->getStatements()), count($statements));
-        $this->assertSame($expectedResult->getMoreUrlPath(), $statementResult->getMoreUrlPath());
+        $this->assertTrue($expectedResult->getMoreUrlPath()->equals($statementResult->getMoreUrlPath()));
 
         foreach ($expectedResult->getStatements() as $index => $expectedStatement) {
             $this->assertTrue($expectedStatement->equals($statements[$index]));

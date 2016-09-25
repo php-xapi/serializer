@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+* Normalization and denormalization support for `IRI` and `IRL` instances
+  where they have been introduced in the `php-xapi/model` package.
+
 * Fixed that context attributes are no longer ignored when statements are
   normalized/denormalized.
 

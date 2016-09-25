@@ -16,6 +16,7 @@ use Xabbuh\XApi\Model\Actor;
 use Xabbuh\XApi\Model\Agent;
 use Xabbuh\XApi\Model\Group;
 use Xabbuh\XApi\Model\InverseFunctionalIdentifier;
+use Xabbuh\XApi\Model\IRI;
 
 /**
  * Normalizes and denormalizes xAPI statement actors.
@@ -35,7 +36,7 @@ final class ActorNormalizer extends Normalizer
 
         $data = array();
 
-        $this->normalizeInverseFunctionalIdentifier($object->getInverseFunctionalIdentifier(), $data);
+        $this->normalizeInverseFunctionalIdentifier($object->getInverseFunctionalIdentifier(), $data, $format, $context);
 
         if (null !== $name = $object->getName()) {
             $data['name'] = $name;
@@ -95,14 +96,14 @@ final class ActorNormalizer extends Normalizer
         return 'Xabbuh\XApi\Model\Actor' === $type || 'Xabbuh\XApi\Model\Agent' === $type || 'Xabbuh\XApi\Model\Group' === $type;
     }
 
-    private function normalizeInverseFunctionalIdentifier(InverseFunctionalIdentifier $iri = null, &$data)
+    private function normalizeInverseFunctionalIdentifier(InverseFunctionalIdentifier $iri = null, &$data, $format = null, array $context = array())
     {
         if (null === $iri) {
             return;
         }
 
         if (null !== $mbox = $iri->getMbox()) {
-            $data['mbox'] = $mbox;
+            $data['mbox'] = $mbox->getValue();
         }
 
         if (null !== $mboxSha1Sum = $iri->getMboxSha1Sum()) {
@@ -114,14 +115,14 @@ final class ActorNormalizer extends Normalizer
         }
 
         if (null !== $account = $iri->getAccount()) {
-            $data['account'] = $this->normalizeAttribute($account);
+            $data['account'] = $this->normalizeAttribute($account, $format, $context);
         }
     }
 
     private function denormalizeInverseFunctionalIdentifier($data, $format = null, array $context = array())
     {
         if (isset($data['mbox'])) {
-            return InverseFunctionalIdentifier::withMbox($data['mbox']);
+            return InverseFunctionalIdentifier::withMbox(IRI::fromString($data['mbox']));
         }
 
         if (isset($data['mbox_sha1sum'])) {

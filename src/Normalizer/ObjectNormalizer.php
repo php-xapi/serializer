@@ -12,6 +12,7 @@
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
 use Xabbuh\XApi\Model\Activity;
+use Xabbuh\XApi\Model\IRI;
 use Xabbuh\XApi\Model\Object;
 use Xabbuh\XApi\Model\Statement;
 use Xabbuh\XApi\Model\StatementId;
@@ -33,7 +34,7 @@ final class ObjectNormalizer extends Normalizer
         if ($object instanceof Activity) {
             $activityData = array(
                 'objectType' => 'Activity',
-                'id' => $object->getId(),
+                'id' => $object->getId()->getValue(),
             );
 
             if (null !== $definition = $object->getDefinition()) {
@@ -112,7 +113,7 @@ final class ObjectNormalizer extends Normalizer
         return 'Xabbuh\XApi\Model\Activity' === $type || 'Xabbuh\XApi\Model\Object' === $type || 'Xabbuh\XApi\Model\StatementReference' === $type || 'Xabbuh\XApi\Model\SubStatement' === $type;
     }
 
-    private function denormalizeActivity(array  $data, $format = null, array $context = array())
+    private function denormalizeActivity(array $data, $format = null, array $context = array())
     {
         $definition = null;
 
@@ -120,7 +121,7 @@ final class ObjectNormalizer extends Normalizer
             $definition = $this->denormalizeData($data['definition'], 'Xabbuh\XApi\Model\Definition', $format, $context);
         }
 
-        return new Activity($data['id'], $definition);
+        return new Activity(IRI::fromString($data['id']), $definition);
     }
 
     private function denormalizeSubStatement(array  $data, $format = null, array $context = array())

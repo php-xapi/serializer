@@ -2,10 +2,7 @@
 
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\Exception\LogicException;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\SerializerAwareInterface;
-use Symfony\Component\Serializer\SerializerInterface;
+use Xabbuh\XApi\Model\IRI;
 use Xabbuh\XApi\Model\Verb;
 
 /**
@@ -13,16 +10,34 @@ use Xabbuh\XApi\Model\Verb;
  *
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-final class VerbNormalizer implements DenormalizerInterface, SerializerAwareInterface
+final class VerbNormalizer extends Normalizer
 {
-    private $serializer;
+    /**
+     * {@inheritdoc}
+     */
+    public function normalize($object, $format = null, array $context = array())
+    {
+        if (!$object instanceof Verb) {
+            return;
+        }
+
+        $data = array(
+            'id' => $object->getId()->getValue(),
+        );
+
+        if (null !== $display = $object->getDisplay()) {
+            $data['display'] = $this->normalizeAttribute($display, $format, $context);
+        }
+
+        return $data;
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function setSerializer(SerializerInterface $serializer)
+    public function supportsNormalization($data, $format = null)
     {
-        $this->serializer = $serializer;
+        return $data instanceof Verb;
     }
 
     /**
@@ -30,17 +45,14 @@ final class VerbNormalizer implements DenormalizerInterface, SerializerAwareInte
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        if (!$this->serializer instanceof DenormalizerInterface) {
-            throw new LogicException('Cannot denormalize because the injected serializer is not a denormalizer.');
-        }
-
+        $id = IRI::fromString($data['id']);
         $display = null;
 
         if (isset($data['display'])) {
-            $display = $this->serializer->denormalize($data['display'], 'Xabbuh\XApi\Model\LanguageMap', $format, $context);
+            $display = $this->denormalizeData($data['display'], 'Xabbuh\XApi\Model\LanguageMap', $format, $context);
         }
 
-        return new Verb($data['id'], $display);
+        return new Verb($id, $display);
     }
 
     /**

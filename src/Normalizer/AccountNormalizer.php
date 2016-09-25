@@ -11,16 +11,15 @@
 
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Xabbuh\XApi\Model\Account;
+use Xabbuh\XApi\Model\IRL;
 
 /**
  * Normalizes and denormalizes xAPI statement accounts.
  *
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-final class AccountNormalizer implements DenormalizerInterface, NormalizerInterface
+final class AccountNormalizer extends Normalizer
 {
     /**
      * {@inheritdoc}
@@ -33,7 +32,7 @@ final class AccountNormalizer implements DenormalizerInterface, NormalizerInterf
 
         return array(
             'name' => $object->getName(),
-            'homePage' => $object->getHomePage(),
+            'homePage' => $object->getHomePage()->getValue(),
         );
     }
 
@@ -61,7 +60,7 @@ final class AccountNormalizer implements DenormalizerInterface, NormalizerInterf
             $homePage = $data['homePage'];
         }
 
-        return new Account($name, $homePage);
+        return new Account($name, IRL::fromString($homePage));
     }
 
     /**

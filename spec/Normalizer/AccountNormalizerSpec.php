@@ -4,6 +4,7 @@ namespace spec\Xabbuh\XApi\Serializer\Normalizer;
 
 use PhpSpec\ObjectBehavior;
 use Xabbuh\XApi\DataFixtures\AccountFixtures;
+use Xabbuh\XApi\Model\IRL;
 use XApi\Fixtures\Json\AccountJsonFixtures;
 
 class AccountNormalizerSpec extends ObjectBehavior
@@ -18,17 +19,6 @@ class AccountNormalizerSpec extends ObjectBehavior
         $this->shouldHaveType('Symfony\Component\Serializer\Normalizer\DenormalizerInterface');
     }
 
-    function it_normalizes_accounts()
-    {
-        $data = $this->normalize(AccountFixtures::getTypicalAccount());
-
-        $data->shouldHaveCount(2);
-        $data->shouldHaveKey('homePage');
-        $data->shouldHaveKey('name');
-        $data['homePage']->shouldBeEqualTo('https://tincanapi.com');
-        $data['name']->shouldBeEqualTo('test');
-    }
-
     function it_supports_normalizing_accounts()
     {
         $this->supportsNormalization(AccountFixtures::getTypicalAccount())->shouldBe(true);
@@ -39,7 +29,7 @@ class AccountNormalizerSpec extends ObjectBehavior
         $account = $this->denormalize(array('homePage' => 'https://tincanapi.com', 'name' => 'test'), 'Xabbuh\XApi\Model\Account');
 
         $account->shouldBeAnInstanceOf('Xabbuh\XApi\Model\Account');
-        $account->getHomePage()->shouldReturn('https://tincanapi.com');
+        $account->getHomePage()->equals(IRL::fromString('https://tincanapi.com'))->shouldReturn(true);
         $account->getName()->shouldReturn('test');
     }
 

@@ -11,41 +11,68 @@
 
 namespace Xabbuh\XApi\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\Exception\LogicException;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\SerializerAwareInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 use Xabbuh\XApi\Model\Attachment;
+use Xabbuh\XApi\Model\IRI;
+use Xabbuh\XApi\Model\IRL;
 
 /**
  * Denormalizes PHP arrays to {@link Attachment} objects.
  *
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-final class AttachmentNormalizer implements DenormalizerInterface, SerializerAwareInterface
+final class AttachmentNormalizer extends Normalizer
 {
-    private $serializer;
-
-    public function setSerializer(SerializerInterface $serializer)
+    /**
+     * {@inheritdoc}
+     */
+    public function normalize($object, $format = null, array $context = array())
     {
-        $this->serializer = $serializer;
+        if (!$object instanceof Attachment) {
+            return;
+        }
+
+        $data = array(
+            'usageType' => $object->getUsageType()->getValue(),
+            'contentType' => $object->getContentType(),
+            'length' => $object->getLength(),
+            'sha2' => $object->getSha2(),
+            'display' => $this->normalizeAttribute($object->getDisplay(), $format, $context),
+        );
+
+        if (null !== $description = $object->getDescription()) {
+            $data['description'] = $this->normalizeAttribute($description, $format, $context);
+        }
+
+        if (null !== $fileUrl = $object->getFileUrl()) {
+            $data['fileUrl'] = $fileUrl->getValue();
+        }
+
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsNormalization($data, $format = null)
+    {
+        return $data instanceof Attachment;
     }
 
     public function denormalize($data, $class, $format = null, array $context = array())
     {
-        if (!$this->serializer instanceof DenormalizerInterface) {
-            throw new LogicException('Cannot denormalize because the injected serializer is not a denormalizer.');
-        }
-
-        $display = $this->serializer->denormalize($data['display'], 'Xabbuh\XApi\Model\LanguageMap', $format, $context);
+        $display = $this->denormalizeData($data['display'], 'Xabbuh\XApi\Model\LanguageMap', $format, $context);
         $description = null;
-        $fileUrl = isset($data['fileUrl']) ? $data['fileUrl'] : null;
+        $fileUrl = null;
 
         if (isset($data['description'])) {
-            $description = $this->serializer->denormalize($data['description'], 'Xabbuh\XApi\Model\LanguageMap', $format, $context);
+            $description = $this->denormalizeData($data['description'], 'Xabbuh\XApi\Model\LanguageMap', $format, $context);
         }
 
-        return new Attachment($data['usageType'], $data['contentType'], $data['length'], $data['sha2'], $display, $description, $fileUrl);
+        if (isset($data['fileUrl'])) {
+            $fileUrl = IRL::fromString($data['fileUrl']);
+        }
+
+        return new Attachment(IRI::fromString($data['usageType']), $data['contentType'], $data['length'], $data['sha2'], $display, $description, $fileUrl);
     }
 
     public function supportsDenormalization($data, $type, $format = null)
