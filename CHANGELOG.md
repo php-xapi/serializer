@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+0.3.0
+-----
+
 * Normalization and denormalization support for `IRI` and `IRL` instances
   where they have been introduced in the `php-xapi/model` package.
 
