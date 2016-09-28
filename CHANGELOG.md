@@ -4,6 +4,9 @@ CHANGELOG
 0.4.0
 -----
 
+* Added a `SerializerFactoryInterface` with a default implementation in
+  `SerializerFactory` that abstracts the creation of serializer instances.
+
 * The `SerializerRegistry` class is now final. If you need custom behavior
   inside the serializer registry, create your own implementation of the
   `SerializerRegistryInterface`.
