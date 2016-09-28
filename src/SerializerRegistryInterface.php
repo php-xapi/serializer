@@ -28,7 +28,7 @@ interface SerializerRegistryInterface
     /**
      * Returns the {@link StatementSerializerInterface statement serializer}.
      *
-     * @return StatementSerializerInterface The serializer
+     * @return StatementSerializerInterface|null The serializer
      */
     public function getStatementSerializer();
 
@@ -42,7 +42,7 @@ interface SerializerRegistryInterface
     /**
      * Returns the {@link StatementResultSerializerInterface statement result serializer}.
      *
-     * @return StatementResultSerializerInterface The serializer
+     * @return StatementResultSerializerInterface|null The serializer
      */
     public function getStatementResultSerializer();
 
@@ -56,7 +56,7 @@ interface SerializerRegistryInterface
     /**
      * Returns the {@link ActorSerializerInterface actor serializer}.
      *
-     * @return ActorSerializerInterface The serializer
+     * @return ActorSerializerInterface|null The serializer
      */
     public function getActorSerializer();
 
@@ -70,7 +70,7 @@ interface SerializerRegistryInterface
     /**
      * Returns the {@link DocumentDataSerializerInterface document data serializer}.
      *
-     * @return DocumentDataSerializerInterface The serializer
+     * @return DocumentDataSerializerInterface|null The serializer
      */
     public function getDocumentDataSerializer();
 }
