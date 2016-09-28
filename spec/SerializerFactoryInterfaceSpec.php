@@ -4,7 +4,7 @@ namespace spec\Xabbuh\XApi\Serializer;
 
 use PhpSpec\ObjectBehavior;
 
-class SerializerFactorySpec extends ObjectBehavior
+abstract class SerializerFactoryInterfaceSpec extends ObjectBehavior
 {
     function it_creates_a_statement_serializer()
     {

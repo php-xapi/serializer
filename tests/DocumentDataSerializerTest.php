@@ -12,23 +12,18 @@
 namespace Xabbuh\XApi\Serializer\Tests;
 
 use Xabbuh\XApi\DataFixtures\DocumentFixtures;
-use Xabbuh\XApi\Serializer\DocumentDataSerializer;
-use Xabbuh\XApi\Serializer\Serializer;
 use XApi\Fixtures\Json\DocumentJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class DocumentSerializerTest extends \PHPUnit_Framework_TestCase
+abstract class DocumentDataSerializerTest extends SerializerTest
 {
-    /**
-     * @var DocumentDataSerializer
-     */
     private $documentDataSerializer;
 
     protected function setUp()
     {
-        $this->documentDataSerializer = new DocumentDataSerializer(Serializer::createSerializer());
+        $this->documentDataSerializer = $this->createDocumentDataSerializer();
     }
 
     public function testDeserializeDocumentData()
@@ -49,4 +44,6 @@ class DocumentSerializerTest extends \PHPUnit_Framework_TestCase
             $this->documentDataSerializer->serializeDocumentData($documentData)
         );
     }
+
+    abstract protected function createDocumentDataSerializer();
 }

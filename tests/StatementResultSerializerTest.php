@@ -11,74 +11,62 @@
 
 namespace Xabbuh\XApi\Serializer\Tests;
 
-use Xabbuh\XApi\DataFixtures\StatementResultFixtures;
-use Xabbuh\XApi\Serializer\Serializer;
-use Xabbuh\XApi\Serializer\StatementResultSerializer;
-use XApi\Fixtures\Json\StatementResultJsonFixtures;
+use Xabbuh\XApi\Model\StatementResult;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class StatementResultSerializerTest extends \PHPUnit_Framework_TestCase
+abstract class StatementResultSerializerTest extends SerializerTest
 {
-    /**
-     * @var StatementResultSerializer
-     */
     private $statementResultSerializer;
 
     protected function setUp()
     {
-        $this->statementResultSerializer = new StatementResultSerializer(Serializer::createSerializer());
+        $this->statementResultSerializer = $this->createStatementResultSerializer();
     }
-    public function testDeserializeStatementResult()
+
+    /**
+     * @dataProvider serializeData
+     */
+    public function testSerializeStatementResult(StatementResult $statementResult, $expectedJson)
     {
-        $expectedResult = StatementResultFixtures::getStatementResult();
-        $statementResult = $this->statementResultSerializer->deserializeStatementResult(
-            StatementResultJsonFixtures::getStatementResult()
-        );
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->statementResultSerializer->serializeStatementResult($statementResult));
+    }
+
+    public function serializeData()
+    {
+        return $this->buildSerializeTestCases('StatementResult');
+    }
+
+    /**
+     * @dataProvider deserializeData
+     */
+    public function testDeserializeStatementResult($json, StatementResult $expectedStatementResult)
+    {
+        $statementResult = $this->statementResultSerializer->deserializeStatementResult($json);
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\StatementResult', $statementResult);
+
+        $expectedStatements = $expectedStatementResult->getStatements();
         $statements = $statementResult->getStatements();
 
-        $this->assertSame(count($expectedResult->getStatements()), count($statements));
-        $this->assertSame($expectedResult->getMoreUrlPath(), $statementResult->getMoreUrlPath());
+        $this->assertCount(count($expectedStatements), $statements, 'Statement result sets have the same size');
 
-        foreach ($expectedResult->getStatements() as $index => $expectedStatement) {
-            $this->assertTrue($expectedStatement->equals($statements[$index]));
+        foreach ($expectedStatements as $key => $expectedStatement) {
+            $this->assertTrue($expectedStatement->equals($statements[$key]), 'Statements in result are the same');
+        }
+
+        if (null === $expectedStatementResult->getMoreUrlPath()) {
+            $this->assertNull($statementResult->getMoreUrlPath(), 'The more URL path is null');
+        } else {
+            $this->assertTrue($expectedStatementResult->getMoreUrlPath()->equals($statementResult->getMoreUrlPath()), 'More URL paths are equal');
         }
     }
 
-    public function testSerializeMinimalStatement()
+    public function deserializeData()
     {
-        $statementResult = StatementResultFixtures::getStatementResult();
-
-        $this->assertJsonStringEqualsJsonString(
-            StatementResultJsonFixtures::getStatementResult(),
-            $this->statementResultSerializer->serializeStatementResult($statementResult)
-        );
+        return $this->buildDeserializeTestCases('StatementResult');
     }
 
-    public function testDeserializeStatementResultWithMore()
-    {
-        $expectedResult = StatementResultFixtures::getStatementResultWithMore();
-        $statementResult = $this->statementResultSerializer->deserializeStatementResult(
-            StatementResultJsonFixtures::getStatementResultWithMore()
-        );
-        $statements = $statementResult->getStatements();
-
-        $this->assertSame(count($expectedResult->getStatements()), count($statements));
-        $this->assertTrue($expectedResult->getMoreUrlPath()->equals($statementResult->getMoreUrlPath()));
-
-        foreach ($expectedResult->getStatements() as $index => $expectedStatement) {
-            $this->assertTrue($expectedStatement->equals($statements[$index]));
-        }
-    }
-
-    public function testSerializeMinimalStatementWithMore()
-    {
-        $statementResult = StatementResultFixtures::getStatementResultWithMore();
-
-        $this->assertJsonStringEqualsJsonString(
-            StatementResultJsonFixtures::getStatementResultWithMore(),
-            $this->statementResultSerializer->serializeStatementResult($statementResult)
-        );
-    }
+    abstract protected function createStatementResultSerializer();
 }

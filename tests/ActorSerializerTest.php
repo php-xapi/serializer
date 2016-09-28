@@ -11,61 +11,48 @@
 
 namespace Xabbuh\XApi\Serializer\Tests;
 
-use Xabbuh\XApi\DataFixtures\ActorFixtures;
-use Xabbuh\XApi\Serializer\ActorSerializer;
-use Xabbuh\XApi\Serializer\Serializer;
-use XApi\Fixtures\Json\ActorJsonFixtures;
+use Xabbuh\XApi\Model\Actor;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class ActorSerializerTest extends \PHPUnit_Framework_TestCase
+abstract class ActorSerializerTest extends SerializerTest
 {
-    /**
-     * @var ActorSerializer
-     */
     private $actorSerializer;
 
     protected function setUp()
     {
-        $this->actorSerializer = new ActorSerializer(Serializer::createSerializer());
+        $this->actorSerializer = $this->createActorSerializer();
     }
 
-    public function testDeserializeAgent()
+    /**
+     * @dataProvider serializeData
+     */
+    public function testSerializeActor(Actor $actor, $expectedJson)
     {
-        $actor = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getTypicalAgentWithType());
-
-        $this->assertTrue(ActorFixtures::getTypicalAgent()->equals($actor));
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->actorSerializer->serializeActor($actor));
     }
 
-    public function testDeserializeAgentWithoutObjectType()
+    public function serializeData()
     {
-        $actor = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getTypicalAgent());
-
-        $this->assertTrue(ActorFixtures::getTypicalAgent()->equals($actor));
+        return $this->buildSerializeTestCases('Actor');
     }
 
-    public function testDeserializeGroup()
+    /**
+     * @dataProvider deserializeData
+     */
+    public function testDeserializeActor($json, Actor $expectedActor)
     {
-        /** @var \Xabbuh\XApi\Model\Group $group */
-        $group = $this->actorSerializer->deserializeActor(ActorJsonFixtures::getAllPropertiesAndTwoTypicalAgentMembersGroup());
+        $actor = $this->actorSerializer->deserializeActor($json);
 
-        $this->assertTrue(ActorFixtures::getAllPropertiesAndTwoTypicalAgentMembersGroup()->equals($group));
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Actor', $actor);
+        $this->assertTrue($expectedActor->equals($actor), 'Deserialized actor has the expected properties');
     }
 
-    public function testSerializeAgent()
+    public function deserializeData()
     {
-        $this->assertJsonStringEqualsJsonString(
-            ActorJsonFixtures::getTypicalAgentWithType(),
-            $this->actorSerializer->serializeActor(ActorFixtures::getTypicalAgent())
-        );
+        return $this->buildDeserializeTestCases('Actor');
     }
 
-    public function testSerializeGroup()
-    {
-        $this->assertJsonStringEqualsJsonString(
-            ActorJsonFixtures::getTypicalGroup(),
-            $this->actorSerializer->serializeActor(ActorFixtures::getTypicalGroup())
-        );
-    }
+    abstract protected function createActorSerializer();
 }

@@ -13,103 +13,71 @@ namespace Xabbuh\XApi\Serializer\Tests;
 
 use Xabbuh\XApi\DataFixtures\StatementFixtures;
 use Xabbuh\XApi\Model\Statement;
-use Xabbuh\XApi\Serializer\Serializer;
-use Xabbuh\XApi\Serializer\StatementSerializer;
 use XApi\Fixtures\Json\StatementJsonFixtures;
 
 /**
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class StatementSerializerTest extends \PHPUnit_Framework_TestCase
+abstract class StatementSerializerTest extends SerializerTest
 {
-    /**
-     * @var StatementSerializer
-     */
     private $statementSerializer;
 
     protected function setUp()
     {
-        $this->statementSerializer = new StatementSerializer(Serializer::createSerializer());
+        $this->statementSerializer = $this->createStatementSerializer();
     }
 
     /**
-     * @dataProvider statementProvider
-     *
-     * @param string    $serializedStatement
-     * @param Statement $expectedStatement
+     * @dataProvider serializeData
      */
-    public function testDeserializeStatement($serializedStatement, Statement $expectedStatement)
+    public function testSerializeStatement(Statement $statement, $expectedJson)
     {
-        $statement = $this->statementSerializer->deserializeStatement($serializedStatement);
+        $this->assertJsonStringEqualsJsonString($expectedJson, $this->statementSerializer->serializeStatement($statement));
+    }
 
+    public function serializeData()
+    {
+        $testCases = array();
+
+        foreach ($this->buildSerializeTestCases('Statement') as $fixtures) {
+            if ($fixtures[0] instanceof Statement) {
+                if ($fixtures[0]->getVerb()->isVoidVerb()) {
+                    $fixtures[0] = StatementFixtures::getVoidingStatement(StatementFixtures::DEFAULT_STATEMENT_ID);
+                }
+
+                $testCases[] = $fixtures;
+            }
+        }
+
+        return $testCases;
+    }
+
+    /**
+     * @dataProvider deserializeData
+     */
+    public function testDeserializeStatement($json, Statement $expectedStatement)
+    {
+        $statement = $this->statementSerializer->deserializeStatement($json);
+
+        $this->assertInstanceOf('Xabbuh\XApi\Model\Statement', $statement);
         $this->assertTrue($expectedStatement->equals($statement));
     }
 
-    /**
-     * @dataProvider statementProvider
-     *
-     * @param string    $expectedStatement
-     * @param Statement $statement
-     */
-    public function testSerializeStatement($expectedStatement, Statement $statement)
+    public function deserializeData()
     {
-        $serializedStatement = $this->statementSerializer->serializeStatement($statement);
+        $testCases = array();
 
-        $this->assertJsonStringEqualsJsonString($expectedStatement, $serializedStatement);
-    }
+        foreach ($this->buildDeserializeTestCases('Statement') as $fixtures) {
+            if ($fixtures[1] instanceof Statement) {
+                if ($fixtures[1]->getVerb()->isVoidVerb()) {
+                    $fixtures[1] = StatementFixtures::getVoidingStatement(StatementFixtures::DEFAULT_STATEMENT_ID);
+                }
 
-    public function statementProvider()
-    {
-        return array(
-            'minimal-statement' => array(
-                StatementJsonFixtures::getMinimalStatement(),
-                StatementFixtures::getMinimalStatement(),
-            ),
-            'typical-statement' => array(
-                StatementJsonFixtures::getTypicalStatement(),
-                StatementFixtures::getTypicalStatement(),
-            ),
-            'voiding-statement' => array(
-                StatementJsonFixtures::getVoidingStatement(),
-                StatementFixtures::getVoidingStatement('12345678-1234-5678-8234-567812345678'),
-            ),
-            'attachment-statement' => array(
-                StatementJsonFixtures::getAttachmentStatement(),
-                StatementFixtures::getAttachmentStatement(),
-            ),
-            'statement-with-group-actor' => array(
-                StatementJsonFixtures::getStatementWithGroupActor(),
-                StatementFixtures::getStatementWithGroupActor(),
-            ),
-            'statement-with-group-actor-without-members' => array(
-                StatementJsonFixtures::getStatementWithGroupActorWithoutMembers(),
-                StatementFixtures::getStatementWithGroupActorWithoutMembers(),
-            ),
-            'statement-reference' => array(
-                StatementJsonFixtures::getStatementWithStatementRef(),
-                StatementFixtures::getStatementWithStatementRef(),
-            ),
-            'statement-with-sub-statement' => array(
-                StatementJsonFixtures::getStatementWithSubStatement(),
-                StatementFixtures::getStatementWithSubStatement(),
-            ),
-            'statement-with-result' => array(
-                StatementJsonFixtures::getStatementWithResult(),
-                StatementFixtures::getStatementWithResult(),
-            ),
-            'statement-with-agent-authority' => array(
-                StatementJsonFixtures::getStatementWithAgentAuthority(),
-                StatementFixtures::getStatementWithAgentAuthority(),
-            ),
-            'statement-with-group-authority' => array(
-                StatementJsonFixtures::getStatementWithGroupAuthority(),
-                StatementFixtures::getStatementWithGroupAuthority(),
-            ),
-            'all-properties-statement' => array(
-                StatementJsonFixtures::getAllPropertiesStatement(),
-                StatementFixtures::getAllPropertiesStatement(),
-            ),
-        );
+                $testCases[] = $fixtures;
+            }
+        }
+
+        return $testCases;
     }
 
     public function testDeserializeStatementCollection()
@@ -126,4 +94,6 @@ class StatementSerializerTest extends \PHPUnit_Framework_TestCase
             $this->assertTrue($expectedStatement->equals($statements[$index]));
         }
     }
+
+    abstract protected function createStatementSerializer();
 }
