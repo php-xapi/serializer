@@ -16,7 +16,7 @@ namespace Xabbuh\XApi\Serializer;
  *
  * @author Christian Flothmann <christian.flothmann@xabbuh.de>
  */
-class SerializerRegistry implements SerializerRegistryInterface
+final class SerializerRegistry implements SerializerRegistryInterface
 {
     /**
      * @var StatementSerializerInterface The statement serializer

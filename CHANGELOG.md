@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+0.4.0
+-----
+
+* The `SerializerRegistry` class is now final. If you need custom behavior
+  inside the serializer registry, create your own implementation of the
+  `SerializerRegistryInterface`.
+
 0.3.0
 -----
 
