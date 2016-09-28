@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+1.0.0
+-----
+
+This is the first stable release of the Experience API serialization API.
+In terms of functions, there are no differences to the `0.4.0` release, but
+required versions of the `php-xapi` packages each have been bumped to `^1.0`.
+
 0.4.0
 -----
 
