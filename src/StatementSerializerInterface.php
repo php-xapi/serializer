@@ -41,18 +41,24 @@ interface StatementSerializerInterface
     /**
      * Parses a serialized statement.
      *
-     * @param string $data The serialized statement
+     * @param string $data        The serialized statement
+     * @param array  $attachments The raw attachment data, a mapping of SHA-2 hashes to attachments data (the data is an
+     *                            array with the keys type, the attachment's MIME type, and content, the attachment's raw
+     *                            content data)
      *
      * @return Statement The parsed statement
      */
-    public function deserializeStatement($data);
+    public function deserializeStatement($data, array $attachments = array());
 
     /**
      * Parses a serialized collection of statements.
      *
-     * @param string $data The serialized statements
+     * @param string $data        The serialized statements
+     * @param array  $attachments The raw attachment data, a mapping of SHA-2 hashes to attachments data (the data is an
+     *                            array with the keys type, the attachment's MIME type, and content, the attachment's raw
+     *                            content data)
      *
      * @return Statement[] The parsed statements
      */
-    public function deserializeStatements($data);
+    public function deserializeStatements($data, array $attachments = array());
 }

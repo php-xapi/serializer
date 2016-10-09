@@ -57,7 +57,18 @@ abstract class StatementSerializerTest extends SerializerTest
      */
     public function testDeserializeStatement($json, Statement $expectedStatement)
     {
-        $statement = $this->statementSerializer->deserializeStatement($json);
+        $attachments = array();
+
+        if (null !== $expectedStatement->getAttachments()) {
+            foreach ($expectedStatement->getAttachments() as $attachment) {
+                $attachments[$attachment->getSha2()] = array(
+                    'type' => $attachment->getContentType(),
+                    'content' => $attachment->getContent(),
+                );
+            }
+        }
+
+        $statement = $this->statementSerializer->deserializeStatement($json, $attachments);
 
         $this->assertInstanceOf('Xabbuh\XApi\Model\Statement', $statement);
         $this->assertTrue($expectedStatement->equals($statement));

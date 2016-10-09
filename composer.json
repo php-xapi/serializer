@@ -13,13 +13,14 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "php-xapi/json-test-fixtures": "^1.0",
-        "php-xapi/model": "^1.0",
-        "php-xapi/test-fixtures": "^1.0"
+        "php-xapi/json-test-fixtures": "^2.0",
+        "php-xapi/model": "^1.1",
+        "php-xapi/test-fixtures": "^1.0.1"
     },
     "require-dev": {
         "phpspec/phpspec": "^2.3"
     },
+    "minimum-stability": "dev",
     "conflict": {
         "xabbuh/xapi-serializer": "*"
     },
@@ -32,7 +33,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

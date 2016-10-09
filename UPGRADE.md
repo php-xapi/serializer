@@ -1,6 +1,22 @@
 UPGRADE
 =======
 
+Upgrading from 1.x to 2.0
+-------------------------
+
+Raw attachment content data must be passed in order to make it possible for
+serializer implementiations to populate the `$content` attribute of `Attachment`
+objects during deserialization.
+
+In order to achieve this an optional `$attachments` argument has been added
+to the `StatementResultSerializerInterface::deserializeStatementResult()`,
+and the `deserializeStatement()`  and `deserializeStatements()` methods of
+the `StatementSerializerInterface`.
+
+When being passed, this argument must be an array mapping SHA-2 hashes to an
+array which in turn maps the `type` and `content` keys to the attachment's
+content type and raw content data respectively.
+
 Upgrading from 0.3 to 0.4
 -------------------------
 
