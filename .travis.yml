@@ -8,7 +8,7 @@ cache:
 
 env:
   global:
-    - deps=""
+    - COMPOSER_OPTIONS="--prefer-stable"
 
 php:
   - 5.4
@@ -20,17 +20,16 @@ matrix:
   fast_finish: true
   include:
     - php: 5.3
-      env: deps="low"
+      env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable"
     - php: 7.0
-      env: xdebug="yes"
+      env: xdebug="yes" COMPOSER_OPTIONS=""
 
 before_install:
   - if [[ "$TRAVIS_PHP_VERSION" != "hhvm" && "$xdebug" != "yes" ]]; then phpenv config-rm xdebug.ini; fi
   - composer self-update
 
 install:
-  - if [ "$deps" = "low" ]; then composer update --prefer-lowest --prefer-stable; fi
-  - if [ "$deps" = "" ]; then composer install; fi
+  - composer update $COMPOSER_OPTIONS
 
 script:
   - vendor/bin/phpspec run
