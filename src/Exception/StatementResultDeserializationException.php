@@ -12,8 +12,6 @@
 namespace Xabbuh\XApi\Serializer\Exception;
 
 /**
- * StatementResultDeserializationException.
- *
  * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
  */
 class StatementResultDeserializationException extends DeserializationException

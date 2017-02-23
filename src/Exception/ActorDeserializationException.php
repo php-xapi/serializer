@@ -12,8 +12,6 @@
 namespace Xabbuh\XApi\Serializer\Exception;
 
 /**
- * ActorDeserializationException.
- *
  * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
  */
 class ActorDeserializationException extends DeserializationException

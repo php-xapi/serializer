@@ -12,8 +12,6 @@
 namespace Xabbuh\XApi\Serializer\Exception;
 
 /**
- * MissingRequiredAttributesException.
- *
  * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
  */
 class MissingRequiredAttributesException extends DeserializationException

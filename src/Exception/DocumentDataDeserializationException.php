@@ -12,8 +12,6 @@
 namespace Xabbuh\XApi\Serializer\Exception;
 
 /**
- * DocumentDataDeserializationException.
- *
  * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
  */
 class DocumentDataDeserializationException extends DeserializationException
