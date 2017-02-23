@@ -11,6 +11,9 @@
 
 namespace Xabbuh\XApi\Serializer\Exception;
 
+/**
+ * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
+ */
 abstract class SerializationException extends \DomainException implements ExceptionInterface
 {
 }
