@@ -1,0 +1,67 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:08:06Z
+
+I just wonder when we would throw a `MissingAttributesException` or `ExtraAttributesException` and when one of the other specialised exceptions. Any idea on what to base this decision? It shouldn't be confusing to consumers of the libs which exceptions they have to account for.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-02-23T11:20:55Z
+
+Was thinking the same.
+
+We could rely on specific exceptions thrown by the underneath serializer libraries. But I think it should be enough just to fill the `previous` attribute of the multiple `DeserializationException` and `SerializationException`.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:26:56Z
+
+What about dropping `MissingAttributesException` and `ExtraAttributesException` and use specific codes to indicate the cause of the exception (the base classes could defined `MISSING_ATTRIBUTE` and `EXTRA_ATTRIBUTE` constants to make them available in all concrete exceptions)?
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-02-23T11:31:24Z
+
+What's the point ? Maybe we could just fill the `message` attribute of our exceptions with the one from the exceptions from the underneath libraries ?
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:33:53Z
+
+I have no concrete use case yet. So we could even just drop the idea for now. Though I think it may at some point be useful to distinguish certain classes of errors that could occur during serialisation/deserialisation.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-02-23T11:37:01Z
+
+For now, our use case is just to respond with a bad request response if the serialization/deserialization fails. We can always come back to this if our needs evolve.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:40:30Z
+
+Fair enough, let's focus on the problems we need to solve now. :)
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:43:45Z
+
+👍 Can you update the branch alias to be prepared for the 3.0 release? I will then merge and release tonight.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:44:40Z
+
+Oh well, I think I will also create some additional tests that enforce implementations to throw these new exceptions.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-02-23T11:45:54Z
+
+Updating the branch alias ? What do you mean ?
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-02-23T11:47:14Z
+
+Sorry, I meant updating https://github.com/php-xapi/serializer/blob/master/composer.json#L36 to be `3.0.x-dev`.
