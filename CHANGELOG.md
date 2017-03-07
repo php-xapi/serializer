@@ -4,6 +4,10 @@ CHANGELOG
 3.0.0
 -----
 
+* added a `ActivitySerializerInterface` that abstracts the serialization of an activity
+
+* added a `createActivitySerializer()` method to the `SerializerFactoryInterface`
+
 * the `serializeStatement()`, `serializeStatements()`, `deserializeStatement()`, and
   `deserializeStatements()` methods of the `StatementSerializerInterface` can throw
   an `UnsupportedStatementVersionException` if the version of the statement to be
@@ -11,7 +15,8 @@ CHANGELOG
 
 * added abstract base `SerializationException` and `DeserializationException` classes:
   concrete classes exist for the `ActorSerializerInterface`, `DocumentDataSerializerInterface`,
-  `StatementResultSerializerInterface`, and `StatementSerializerInterface`.
+  `StatementResultSerializerInterface`, `StatementSerializerInterface`,
+  and `ActivitySerializerInterface`
 
 2.2.0
 -----
