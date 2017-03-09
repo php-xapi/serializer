@@ -12,9 +12,11 @@
 namespace Xabbuh\XApi\Serializer;
 
 use Xabbuh\XApi\Model\StateDocument;
+use Xabbuh\XApi\Serializer\Exception\StateDocumentDeserializationException;
+use Xabbuh\XApi\Serializer\Exception\StateDocumentSerializationException;
 
 /**
- * Serialize and deserialize {@link StateDocument state documents}
+ * Serialize and deserialize {@link StateDocument state documents}.
  *
  * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
  */
@@ -25,6 +27,8 @@ interface StateDocumentSerializerInterface
      *
      * @param StateDocument $stateDocument
      *
+     * @throws StateDocumentSerializationException When the serialization fails
+     *
      * @return string The serialized state document
      */
     public function serializeStateDocument(StateDocument $stateDocument);
@@ -33,6 +37,8 @@ interface StateDocumentSerializerInterface
      * Parses a serialized state document.
      *
      * @param string $data The serialized state document
+     *
+     * @throws StateDocumentDeserializationException When the deserialization fails
      *
      * @return StateDocument the parsed state document
      */
