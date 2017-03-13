@@ -45,4 +45,11 @@ interface SerializerFactoryInterface
      * @return DocumentDataSerializerInterface
      */
     public function createDocumentDataSerializer();
+
+    /**
+     * Creates a state document serializer.
+     *
+     * @return StateDocumentSerializerInterface
+     */
+    public function createStateDocumentSerializer();
 }

@@ -39,6 +39,11 @@ final class SerializerRegistry implements SerializerRegistryInterface
     private $documentDataSerializer;
 
     /**
+     * @var StateDocumentSerializerInterface The state document serializer
+     */
+    private $stateDocumentSerializer;
+
+    /**
      * {@inheritDoc}
      */
     public function setStatementSerializer(StatementSerializerInterface $serializer)
@@ -100,5 +105,21 @@ final class SerializerRegistry implements SerializerRegistryInterface
     public function getDocumentDataSerializer()
     {
         return $this->documentDataSerializer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStateDocumentSerializer(StateDocumentSerializerInterface $serializer)
+    {
+        $this->stateDocumentSerializer = $serializer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStateDocumentSerializer()
+    {
+        return $this->stateDocumentSerializer;
     }
 }

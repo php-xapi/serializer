@@ -25,4 +25,9 @@ abstract class SerializerFactoryInterfaceSpec extends ObjectBehavior
     {
         $this->createDocumentDataSerializer()->shouldHaveType('Xabbuh\XApi\Serializer\DocumentDataSerializerInterface');
     }
+
+    function it_creates_a_state_document_serializer()
+    {
+        $this->createStateDocumentSerializer()->shouldHaveType('Xabbuh\XApi\Serializer\StateDocumentSerializerInterface');
+    }
 }
