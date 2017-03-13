@@ -39,6 +39,11 @@ final class SerializerRegistry implements SerializerRegistryInterface
     private $documentDataSerializer;
 
     /**
+     * @var ActivitySerializerInterface The activity serializer
+     */
+    private $activitySerializer;
+
+    /**
      * {@inheritDoc}
      */
     public function setStatementSerializer(StatementSerializerInterface $serializer)
@@ -100,5 +105,21 @@ final class SerializerRegistry implements SerializerRegistryInterface
     public function getDocumentDataSerializer()
     {
         return $this->documentDataSerializer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setActivitySerializer(ActivitySerializerInterface $serializer)
+    {
+        $this->activitySerializer = $serializer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getActivitySerializer()
+    {
+        return $this->activitySerializer;
     }
 }

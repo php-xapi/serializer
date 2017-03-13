@@ -73,4 +73,18 @@ interface SerializerRegistryInterface
      * @return DocumentDataSerializerInterface|null The serializer
      */
     public function getDocumentDataSerializer();
+
+    /**
+     * Sets the {@link ActivitySerializerInterface activity serializer}.
+     *
+     * @param ActivitySerializerInterface $serializer The serializer
+     */
+    public function setActivitySerializer(ActivitySerializerInterface $serializer);
+
+    /**
+     * Returns the {@link ActivitySerializerInterface activity serializer}.
+     *
+     * @return ActivitySerializerInterface|null The serializer
+     */
+    public function getActivitySerializer();
 }

@@ -3,6 +3,7 @@
 namespace spec\Xabbuh\XApi\Serializer;
 
 use PhpSpec\ObjectBehavior;
+use Xabbuh\XApi\Serializer\ActivitySerializerInterface;
 use Xabbuh\XApi\Serializer\ActorSerializerInterface;
 use Xabbuh\XApi\Serializer\DocumentDataSerializerInterface;
 use Xabbuh\XApi\Serializer\StatementResultSerializerInterface;
@@ -37,5 +38,11 @@ class SerializerRegistrySpec extends ObjectBehavior
     {
         $this->setDocumentDataSerializer($documentDataSerializer);
         $this->getDocumentDataSerializer()->shouldReturn($documentDataSerializer);
+    }
+
+    function it_stores_an_activity_serializer_for_later_retrieval(ActivitySerializerInterface $activitySerializer)
+    {
+        $this->setActivitySerializer($activitySerializer);
+        $this->getActivitySerializer()->shouldReturn($activitySerializer);
     }
 }
