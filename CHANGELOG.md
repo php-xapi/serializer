@@ -1,6 +1,13 @@
 CHANGELOG
 =========
 
+3.0.0
+-----
+
+* added abstract base `SerializationException` and `DeserializationException` classes:
+  concrete classes exist for the `ActorSerializerInterface`, `DocumentDataSerializerInterface`,
+  `StatementResultSerializerInterface`, and `StatementSerializerInterface`.
+
 2.1.0
 -----
 
