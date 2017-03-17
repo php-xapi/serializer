@@ -16,7 +16,7 @@ use Xabbuh\XApi\Serializer\Exception\ActivityDeserializationException;
 use Xabbuh\XApi\Serializer\Exception\ActivitySerializationException;
 
 /**
- * Serialize and deserialize {@link Activity activities}.
+ * Serialize {@link Activity activities}.
  *
  * @author Jérôme Parmentier <jerome.parmentier@acensi.fr>
  */
@@ -32,15 +32,4 @@ interface ActivitySerializerInterface
      * @return string The serialized activity
      */
     public function serializeActivity(Activity $activity);
-
-    /**
-     * Parses a serialized activity.
-     *
-     * @param string $data The serialized activity
-     *
-     * @throws ActivityDeserializationException When the deserialization fails
-     *
-     * @return Activity The parsed activity
-     */
-    public function deserializeActivity($data);
 }

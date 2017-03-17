@@ -38,21 +38,5 @@ abstract class ActivitySerializerTest extends SerializerTest
         return $this->buildSerializeTestCases('Activity');
     }
 
-    /**
-     * @dataProvider deserializeData
-     */
-    public function testDeserializeActivity($json, Activity $expectedActivity)
-    {
-        $activity = $this->activitySerializer->deserializeActivity($json);
-
-        $this->assertInstanceOf('Xabbuh\XApi\Model\Activity', $activity);
-        $this->assertTrue($expectedActivity->equals($activity), 'Deserialized activity has the expected properties');
-    }
-
-    public function deserializeData()
-    {
-        return $this->buildDeserializeTestCases('Activity');
-    }
-
     abstract protected function createActivitySerializer();
 }
