@@ -11,7 +11,9 @@
 
 namespace Xabbuh\XApi\Serializer\Tests;
 
-abstract class SerializerTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+abstract class SerializerTest extends TestCase
 {
     protected function buildSerializeTestCases($objectType)
     {
