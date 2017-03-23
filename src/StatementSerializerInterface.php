@@ -12,7 +12,7 @@
 namespace Xabbuh\XApi\Serializer;
 
 use Xabbuh\XApi\Model\Statement;
-use Xabbuh\XApi\Serializer\Exception\UnsupportedVersionException;
+use Xabbuh\XApi\Serializer\Exception\UnsupportedStatementVersionException;
 
 /**
  * Serialize and deserialize {@link Statement statements}.
@@ -47,7 +47,7 @@ interface StatementSerializerInterface
      *                            array with the keys type, the attachment's MIME type, and content, the attachment's raw
      *                            content data)
      *
-     * @throws UnsupportedVersionException When the version of the serialized statement is not supported
+     * @throws UnsupportedStatementVersionException When the version of the serialized statement is not supported
      *
      * @return Statement The parsed statement
      */
@@ -61,7 +61,7 @@ interface StatementSerializerInterface
      *                            array with the keys type, the attachment's MIME type, and content, the attachment's raw
      *                            content data)
      *
-     * @throws UnsupportedVersionException When the version of the serialized statement is not supported
+     * @throws UnsupportedStatementVersionException When the version of the serialized statement is not supported
      *
      * @return Statement[] The parsed statements
      */
