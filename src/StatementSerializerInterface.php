@@ -12,6 +12,7 @@
 namespace Xabbuh\XApi\Serializer;
 
 use Xabbuh\XApi\Model\Statement;
+use Xabbuh\XApi\Serializer\Exception\UnsupportedVersionException;
 
 /**
  * Serialize and deserialize {@link Statement statements}.
@@ -46,6 +47,8 @@ interface StatementSerializerInterface
      *                            array with the keys type, the attachment's MIME type, and content, the attachment's raw
      *                            content data)
      *
+     * @throws UnsupportedVersionException When the version of the serialized statement is not supported
+     *
      * @return Statement The parsed statement
      */
     public function deserializeStatement($data, array $attachments = array());
@@ -57,6 +60,8 @@ interface StatementSerializerInterface
      * @param array  $attachments The raw attachment data, a mapping of SHA-2 hashes to attachments data (the data is an
      *                            array with the keys type, the attachment's MIME type, and content, the attachment's raw
      *                            content data)
+     *
+     * @throws UnsupportedVersionException When the version of the serialized statement is not supported
      *
      * @return Statement[] The parsed statements
      */
