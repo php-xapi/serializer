@@ -1,0 +1,87 @@
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-23T09:50:48Z
+
+Why this ?
+
+It seems logical to me that our serializer implementations throw an exception if they try to deserialize a statement at a version they don't support.
+
+This will potentially prevent the Symfony Serializer to throw more obscure exceptions, while this exception make the root of the problem pretty clear.
+
+If we make this check after the `SerializationListener` has done its job in our LrsBundle, we can potentially never reach this check because of the said possible problems that can occurs during the deserialization process because of the version mismatch.
+
+WDYT @xabbuh ?
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-03-24T14:29:09Z
+
+Sounds like a good idea to me. But what do you think if we move this exception to the `php-xapi/exception` package? It will probably prove to be useful in other contexts too (and I don't think we need a specific implementation here).
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-03-24T14:29:40Z
+
+We will also need to update the changelog.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-24T17:54:44Z
+
+Why not. It might be useful in the repository part too.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-24T17:58:35Z
+
+What parent exception should it extend then @xabbuh ?
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-03-25T06:43:06Z
+
+Do we want it to extend another extension?
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-26T20:02:50Z
+
+Having it extending `\InvalidArgumentException` seems the more logical to me.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-03-29T07:15:14Z
+
+One thing that still bothers me: We currently only cover the deserialization part. What if at some point the spec introduces breaking changes which we would need to cover in the model package? From the outside the object might still be a `Statement` instance, but it may be composed in other ways. Making the new generic `UnsupportedStatementVersionException` extend the `StatementDeserializationException` will block us from throwing a similar one during normalization. I think we should somehow reflect this in the exception's class name.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-29T08:20:24Z
+
+See php-xapi/exception#1 :)
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-03-29T16:08:17Z
+
+I thought about this once more and I think we should not mix low-level exceptions (like the ones from the serializer package) with high-level exceptions (the exceptions from the exceptions package). Instead, it's the responsibility of an LRS or the client library to map low-level to high-level exceptions. Therefore, I think we should still merge this PR, but with a slightly different exception name (by the way, php-xapi/exception#1 is merged ;)).
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-29T17:33:53Z
+
+I don't see the value of this.
+
+In the LrsBundle, we don't map low-level to high-level exceptions but we catch our exceptions - whatever library they are coming from - and throw the good `HttpException` from Symfony according to the spec.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-03-29T18:33:33Z
+
+Good point, I didn't think of some of other other exceptions. Can you then update the exception namespace to use our new one and also add `php-xapi/exception` to the required packages?
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-29T19:05:06Z
+
+@xabbuh Done.
