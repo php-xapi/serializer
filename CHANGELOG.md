@@ -4,6 +4,11 @@ CHANGELOG
 3.0.0
 -----
 
+* the `serializeStatement()`, `serializeStatements()`, `deserializeStatement()`, and
+  `deserializeStatements()` methods of the `StatementSerializerInterface` can throw
+  an `UnsupportedStatementVersionException` if the version of the statement to be
+  (de-)serialized is not supported
+
 * added abstract base `SerializationException` and `DeserializationException` classes:
   concrete classes exist for the `ActorSerializerInterface`, `DocumentDataSerializerInterface`,
   `StatementResultSerializerInterface`, and `StatementSerializerInterface`.
