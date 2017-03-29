@@ -11,8 +11,8 @@
 
 namespace Xabbuh\XApi\Serializer;
 
+use Xabbuh\XApi\Common\Exception\UnsupportedStatementVersionException;
 use Xabbuh\XApi\Model\Statement;
-use Xabbuh\XApi\Serializer\Exception\UnsupportedStatementVersionException;
 
 /**
  * Serialize and deserialize {@link Statement statements}.
