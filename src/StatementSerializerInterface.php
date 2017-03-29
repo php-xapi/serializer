@@ -26,6 +26,8 @@ interface StatementSerializerInterface
      *
      * @param Statement $statement The statement to serialize
      *
+     * @throws UnsupportedStatementVersionException When the version of the statement to be serialized is not supported
+     *
      * @return string The serialized statement
      */
     public function serializeStatement(Statement $statement);
@@ -34,6 +36,8 @@ interface StatementSerializerInterface
      * Serializes a collection of statements into a JSON encoded string.
      *
      * @param Statement[] $statements The statements to serialize
+     *
+     * @throws UnsupportedStatementVersionException When the version of the statement to be serialized is not supported
      *
      * @return string The serialized statements
      */
