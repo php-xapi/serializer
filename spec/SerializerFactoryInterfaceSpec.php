@@ -30,4 +30,9 @@ abstract class SerializerFactoryInterfaceSpec extends ObjectBehavior
     {
         $this->createActivitySerializer()->shouldHaveType('Xabbuh\XApi\Serializer\ActivitySerializerInterface');
     }
+
+    function it_creates_a_person_serializer()
+    {
+        $this->createPersonSerializer()->shouldHaveType('Xabbuh\XApi\Serializer\PersonSerializerInterface');
+    }
 }

@@ -87,4 +87,18 @@ interface SerializerRegistryInterface
      * @return ActivitySerializerInterface|null The serializer
      */
     public function getActivitySerializer();
+
+    /**
+     * Sets the {@link PersonSerializerInterface person serializer}.
+     *
+     * @param PersonSerializerInterface $serializer The serializer
+     */
+    public function setPersonSerializer(PersonSerializerInterface $serializer);
+
+    /**
+     * Returns the {@link PersonSerializerInterface person serializer}.
+     *
+     * @return PersonSerializerInterface|null The serializer
+     */
+    public function getPersonSerializer();
 }
