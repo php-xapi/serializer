@@ -14,6 +14,9 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
   - hhvm
 
 matrix:
@@ -22,6 +25,10 @@ matrix:
     - php: 5.3
       env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable"
     - php: 7.0
+      env: xdebug="yes" COMPOSER_OPTIONS=""
+      php: 7.1
+      env: xdebug="yes" COMPOSER_OPTIONS=""
+      php: 7.2
       env: xdebug="yes" COMPOSER_OPTIONS=""
 
 before_install:
