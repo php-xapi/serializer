@@ -25,9 +25,7 @@ matrix:
     - php: 5.3
       env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable"
     - php: 7.0
-      env: xdebug="yes" COMPOSER_OPTIONS=""
       php: 7.1
-      env: xdebug="yes" COMPOSER_OPTIONS=""
       php: 7.2
       env: xdebug="yes" COMPOSER_OPTIONS=""
 
