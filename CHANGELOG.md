@@ -1,8 +1,10 @@
 CHANGELOG
 =========
 
-2.1.1
+2.2.0
 -----
+
+* allow `3.x` releases of the `php-xapi/model` package too
 
 * dropped support for HHVM
 
