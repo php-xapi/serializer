@@ -6,14 +6,11 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
-env:
-  global:
-    - COMPOSER_OPTIONS="--prefer-stable"
-
 php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.1
 
 matrix:
   fast_finish: true
@@ -22,13 +19,17 @@ matrix:
       dist: precise
       env: COMPOSER_OPTIONS="--prefer-lowest --prefer-stable"
     - php: 7.0
-      env: xdebug="yes" COMPOSER_OPTIONS=""
+    - php: 7.2
+      env: deps="high"
 
 before_install:
-  - if [[ "$xdebug" != "yes" ]]; then phpenv config-rm xdebug.ini; fi
+  - phpenv config-rm xdebug.ini
   - composer self-update
 
 install:
+  - echo "$deps"
+  - echo "$COMPOSER_OPTIONS"
+  - if [ "$deps" = "high" ]; then composer config minimum-stability dev; fi
   - composer update $COMPOSER_OPTIONS
 
 script:
