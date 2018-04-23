@@ -17,7 +17,7 @@ CHANGELOG
 -----
 
 Raw attachment content data must be passed in order to make it possible for
-serializer implementiations to populate the `$content` attribute of `Attachment`
+serializer implementations to populate the `$content` attribute of `Attachment`
 objects during deserialization.
 
 In order to achieve this an optional `$attachments` argument has been added
