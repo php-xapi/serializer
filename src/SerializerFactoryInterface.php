@@ -45,4 +45,11 @@ interface SerializerFactoryInterface
      * @return DocumentDataSerializerInterface
      */
     public function createDocumentDataSerializer();
+
+    /**
+     * Creates an activity serializer.
+     *
+     * @return ActivitySerializerInterface
+     */
+    public function createActivitySerializer();
 }
