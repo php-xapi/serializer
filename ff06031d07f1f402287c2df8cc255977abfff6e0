@@ -1,0 +1,41 @@
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-03-20T12:02:35Z
+
+If we go with the solution proposed in this PR, we'll have to play with the `$context` parameter in the Symfony's Serializer implementation to serialize an array of agents into a Person.
+
+Introducing a `Person` class in the model will certainly make it easier to implement in the serializer implementation.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-04-02T08:45:52Z
+
+I am 👍 for adding a `Person` class to the model package.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-04-03T08:59:50Z
+
+See php-xapi/model#60
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2017-06-05T06:32:24Z
+
+@Lctrs I am deeply sorry for the recent delays. :( I have now merged php-xapi/model#60. You can now rebase here. :)
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-06-05T13:02:46Z
+
+No problem. I understand that you've been really busy with the last release of Symfony.
+
+On my side, I have internally forked your libraries, united them in one Symfony app and continued to work on this. I have an implementation that pass ~1200 tests of the LRS conformance suite from ADL.
+
+I'll work on PRs in the next weeks to sync my work with your libraries. I don't have access right now to my code as it's a public holiday today in France.
+
+---------------------------------------------------------------------------
+
+by Lctrs at 2017-06-06T08:35:05Z
+
+@xabbuh Done.
