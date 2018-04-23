@@ -6,6 +6,7 @@ use PhpSpec\ObjectBehavior;
 use Xabbuh\XApi\Serializer\ActivitySerializerInterface;
 use Xabbuh\XApi\Serializer\ActorSerializerInterface;
 use Xabbuh\XApi\Serializer\DocumentDataSerializerInterface;
+use Xabbuh\XApi\Serializer\PersonSerializerInterface;
 use Xabbuh\XApi\Serializer\StatementResultSerializerInterface;
 use Xabbuh\XApi\Serializer\StatementSerializerInterface;
 
@@ -44,5 +45,11 @@ class SerializerRegistrySpec extends ObjectBehavior
     {
         $this->setActivitySerializer($activitySerializer);
         $this->getActivitySerializer()->shouldReturn($activitySerializer);
+    }
+
+    function it_stores_a_person_serializer_for_later_retrieval(PersonSerializerInterface $personSerializer)
+    {
+        $this->setPersonSerializer($personSerializer);
+        $this->getPersonSerializer()->shouldReturn($personSerializer);
     }
 }

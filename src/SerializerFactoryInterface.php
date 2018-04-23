@@ -52,4 +52,11 @@ interface SerializerFactoryInterface
      * @return ActivitySerializerInterface
      */
     public function createActivitySerializer();
+
+    /**
+     * Creates a person serializer.
+     *
+     * @return PersonSerializerInterface
+     */
+    public function createPersonSerializer();
 }
