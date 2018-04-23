@@ -13,6 +13,13 @@ CHANGELOG
   concrete classes exist for the `ActorSerializerInterface`, `DocumentDataSerializerInterface`,
   `StatementResultSerializerInterface`, and `StatementSerializerInterface`.
 
+2.2.0
+-----
+
+* allow `3.x` releases of the `php-xapi/model` package too
+
+* dropped support for HHVM
+
 2.1.0
 -----
 
@@ -22,7 +29,7 @@ CHANGELOG
 -----
 
 Raw attachment content data must be passed in order to make it possible for
-serializer implementiations to populate the `$content` attribute of `Attachment`
+serializer implementations to populate the `$content` attribute of `Attachment`
 objects during deserialization.
 
 In order to achieve this an optional `$attachments` argument has been added
