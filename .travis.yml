@@ -27,8 +27,6 @@ before_install:
   - composer self-update
 
 install:
-  - echo "$deps"
-  - echo "$COMPOSER_OPTIONS"
   - if [ "$deps" = "high" ]; then composer config minimum-stability dev; fi
   - composer update $COMPOSER_OPTIONS
 
