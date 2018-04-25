@@ -4,9 +4,15 @@ CHANGELOG
 3.0.0
 -----
 
-* added a `ActivitySerializerInterface` that abstracts the serialization of an activity
+* added an `ActivitySerializerInterface` that abstracts the serialization of an activity
 
-* added a `createActivitySerializer()` method to the `SerializerFactoryInterface`
+* added a `PersonSerializerInterface` that abstracts the serialization of an activity
+
+* added `createActivitySerializer()` and `createPersonSerializer()` methods to the
+  `SerializerFactoryInterface`
+
+* added `setActivitySerializer()`, `getActivitySerializer()`, `setPersonSerializer()`,
+  and `getPersonSerializer()` methods to the `SerializerRegistryInterface`
 
 * the `serializeStatement()`, `serializeStatements()`, `deserializeStatement()`, and
   `deserializeStatements()` methods of the `StatementSerializerInterface` can throw
@@ -14,12 +20,9 @@ CHANGELOG
   (de-)serialized is not supported
 
 * added abstract base `SerializationException` and `DeserializationException` classes:
-  concrete classes exist for the `ActorSerializerInterface`, `DocumentDataSerializerInterface`,
-  `StatementResultSerializerInterface`, `StatementSerializerInterface`,
-  and `ActivitySerializerInterface`
-
-2.2.0
------
+  concrete classes exist for the `ActivitySerializerInterface`, `ActorSerializerInterface`,
+  `DocumentDataSerializerInterface`, `PersonSerializerInterface`, `StatementResultSerializerInterface`,
+  and `StatementSerializerInterface`
 
 * allow `3.x` releases of the `php-xapi/model` package too
 
