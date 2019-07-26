@@ -4,6 +4,8 @@ CHANGELOG
 3.0.0
 -----
 
+* dropped support for PHP < 7.1
+
 * added an `ActivitySerializerInterface` that abstracts the serialization of an activity
 
 * added a `PersonSerializerInterface` that abstracts the serialization of an activity
