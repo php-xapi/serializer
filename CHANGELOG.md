@@ -24,6 +24,9 @@ CHANGELOG
   `DocumentDataSerializerInterface`, `PersonSerializerInterface`, `StatementResultSerializerInterface`,
   and `StatementSerializerInterface`
 
+2.2.0
+-----
+
 * allow `3.x` releases of the `php-xapi/model` package too
 
 * dropped support for HHVM
