@@ -20,7 +20,7 @@ abstract class StatementResultSerializerTest extends SerializerTest
 {
     private $statementResultSerializer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->statementResultSerializer = $this->createStatementResultSerializer();
     }

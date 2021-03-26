@@ -21,7 +21,7 @@ abstract class DocumentDataSerializerTest extends SerializerTest
 {
     private $documentDataSerializer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->documentDataSerializer = $this->createDocumentDataSerializer();
     }

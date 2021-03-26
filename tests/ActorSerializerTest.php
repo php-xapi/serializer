@@ -20,7 +20,7 @@ abstract class ActorSerializerTest extends SerializerTest
 {
     private $actorSerializer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->actorSerializer = $this->createActorSerializer();
     }
