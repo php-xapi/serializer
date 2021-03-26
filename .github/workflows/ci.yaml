@@ -13,18 +13,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: '5.3'
+          - php-version: '7.2'
+            composer-options: '--prefer-stable'
+          - php-version: '7.2'
             composer-options: '--prefer-lowest --prefer-stable'
-          - php-version: '5.4'
-            composer-options: '--prefer-stable'
-          - php-version: '5.5'
-            composer-options: '--prefer-stable'
-          - php-version: '5.6'
-            composer-options: '--prefer-stable'
-          - php-version: '7.0'
-            composer-options: '--prefer-stable'
-          - php-version: '7.1'
-            composer-options: '--prefer-stable'
           - php-version: '7.2'
             composer-options: ''
 
