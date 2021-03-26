@@ -15,6 +15,10 @@ jobs:
         include:
           - php-version: '7.2'
             composer-options: '--prefer-stable'
+          - php-version: '7.3'
+            composer-options: '--prefer-stable'
+          - php-version: '7.4'
+            composer-options: '--prefer-stable'
           - php-version: '7.2'
             composer-options: '--prefer-lowest --prefer-stable'
           - php-version: '7.2'
