@@ -4,6 +4,7 @@ CHANGELOG
 2.3.0
 -----
 
+* added support for PHP 8
 * dropped support for PHP 7.1
 * dropped support for PHP 7.0
 * dropped support for PHP 5.x
