@@ -23,6 +23,7 @@
     "conflict": {
         "xabbuh/xapi-serializer": "*"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "spec\\Xabbuh\\XApi\\Serializer\\": "spec/",
