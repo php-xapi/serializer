@@ -4,6 +4,8 @@ CHANGELOG
 2.3.0
 -----
 
+* dropped support for `1.x` and `2.x` releases of the `php-xapi/model` package
+  (they are incompatible with PHP 7.2+)
 * added support for PHP 8
 * dropped support for PHP 7.1
 * dropped support for PHP 7.0
