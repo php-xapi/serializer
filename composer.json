@@ -14,7 +14,7 @@
     "require": {
         "php": "^7.2 || ^8.0",
         "php-xapi/json-test-fixtures": "^2.0",
-        "php-xapi/model": "^1.1 || ^2.0 || ^3.0",
+        "php-xapi/model": "^3.0",
         "php-xapi/test-fixtures": "^1.0.1"
     },
     "require-dev": {
