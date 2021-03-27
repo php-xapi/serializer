@@ -18,7 +18,8 @@
         "php-xapi/test-fixtures": "^1.0.1"
     },
     "require-dev": {
-        "phpspec/phpspec": "^5.0 || ^6.0 || ^7.0"
+        "phpspec/phpspec": "^5.0 || ^6.0 || ^7.0",
+        "phpspec/prophecy": "^1.10"
     },
     "conflict": {
         "xabbuh/xapi-serializer": "*"
